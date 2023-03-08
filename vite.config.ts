@@ -8,5 +8,12 @@ export default defineConfig({
             '@': path.join(__dirname, './src')
         }
     },
-    plugins: [vue()]
+    plugins: [vue()],
+    // 运行时检查eslint规范
+    eslintPlugin: {
+        include: ['src/**/*.ts', 'src/**/*.vue', 'src/*.ts', 'src/*.vue']
+    },
+    server: {
+        port: 8080 //启动端口
+    }
 })
