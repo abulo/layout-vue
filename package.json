@@ -12,7 +12,8 @@
         "prettier": "prettier --write \"./**/*.{html,vue,ts,js,json,md,css,scss,less}\""
     },
     "dependencies": {
-        "vue": "^3.2.47"
+        "vue": "^3.2.47",
+        "vue-router": "^4.1.6"
     },
     "devDependencies": {
         "@types/node": "^18.14.6",
