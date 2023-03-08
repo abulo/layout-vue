@@ -9,6 +9,7 @@ specifiers:
   eslint-config-prettier: ^8.7.0
   eslint-plugin-prettier: ^4.2.1
   eslint-plugin-vue: ^9.9.0
+  mkdirp: ^2.1.5
   prettier: ^2.8.4
   typescript: ^4.9.5
   vite: ^4.1.4
@@ -27,6 +28,7 @@ devDependencies:
   eslint-config-prettier: 8.7.0_eslint@8.35.0
   eslint-plugin-prettier: 4.2.1_xprnzp4ul2bcpmfe73av4voica
   eslint-plugin-vue: 9.9.0_eslint@8.35.0
+  mkdirp: 2.1.5
   prettier: 2.8.4
   typescript: 4.9.5
   vite: 4.1.4_@types+node@18.14.6
@@ -1227,6 +1229,12 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: 2.0.1
+    dev: true
+
+  /mkdirp/2.1.5:
+    resolution: {integrity: sha512-jbjfql+shJtAPrFoKxHOXip4xS+kul9W3OzfzzrqueWK2QMGon2bFH2opl6W9EagBThjEz+iysyi/swOoVfB/w==}
+    engines: {node: '>=10'}
+    hasBin: true
     dev: true
 
   /ms/2.1.2:
