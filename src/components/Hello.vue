@@ -9,7 +9,15 @@ const count = ref(0)
 <template>
     <h1>{{ msg }}</h1>
     <div class="card">
-        <button type="button" @click="count++">count is {{ count }}</button>
+        <el-row class="mb-4">
+            <el-button>Default</el-button>
+            <el-button type="primary">Primary</el-button>
+            <el-button type="success">Success</el-button>
+            <el-button type="info">Info</el-button>
+            <el-button type="warning">Warning</el-button>
+            <el-button type="danger">Danger</el-button>
+        </el-row>
+        <el-button type="primary" @click="count++">count is {{ count }}</el-button>
         <p>
             Edit
             <code>components/Hello.vue</code> to test HMR

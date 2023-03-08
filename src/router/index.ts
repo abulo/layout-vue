@@ -11,11 +11,11 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/hello-w',
         component: HelloWorld
+    },
+    {
+        path: '/',
+        redirect: '/hello'
     }
-    // {
-    //     path: '/',
-    //     redirect: '/hello'
-    // }
 ]
 
 const router = createRouter({
