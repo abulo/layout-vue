@@ -78,6 +78,8 @@ module.exports = {
         'vue/multiline-html-element-content-newline': 0, // 关闭多行元素必须换行符
         // 要求每一行标签的最大属性不超五个
         'vue/max-attributes-per-line': ['warn', { singleline: 5 }],
+        // 解决vue组件中的name属性必须为驼峰命名的问题
+        'vue/multi-word-component-names': 'off',
         // 要求html标签的缩进为需要4个空格
         'vue/html-indent': [
             'warn',
