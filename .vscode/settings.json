@@ -8,5 +8,5 @@
     "editor.formatOnSave": true,
     // 默认格式化工具选择prettier
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "cSpell.words": ["pinia", "unplugin"]
+    "cSpell.words": ["pinia", "tailwindcss", "unplugin"]
 }

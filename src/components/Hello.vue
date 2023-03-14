@@ -7,6 +7,13 @@ const count = ref(0)
 </script>
 
 <template>
+    <div class="grid gap-4 grid-cols-2">
+        <div>01</div>
+        <div>02</div>
+        <div>03</div>
+        <div>04</div>
+    </div>
+    <h1 className="text-3xl font-bold underline">Hello world!</h1>
     <h1>{{ msg }}</h1>
     <div class="card">
         <el-row class="mb-4">
