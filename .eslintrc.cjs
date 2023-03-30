@@ -27,6 +27,13 @@ module.exports = {
 	 * "error" 或 2  ==>  规则作为一个错误（代码不能执行，界面报错）
 	 */
 	rules: {
+		"prettier/prettier": [
+			"error",
+			{
+				useTabs: true,
+				tabWidth: 4
+			}
+		],
 		// eslint (http://eslint.cn/docs/rules)
 		"no-var": "error", // 要求使用 let 或 const 而不是 var
 		"no-multiple-empty-lines": ["error", { max: 1 }], // 不允许多个空行
