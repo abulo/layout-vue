@@ -21,6 +21,12 @@ import "@/styles/theme/element-dark.scss";
 // custom element css
 import "@/styles/element.scss";
 
+// 导入路由
+import router from "@/routers";
+
+// 导入国际化
+import i18n from "@/languages";
+
 const app = createApp(App);
 
 // 注册element Icons组件
@@ -28,4 +34,4 @@ Object.keys(Icons).forEach(key => {
 	app.component(key, Icons[key as keyof typeof Icons]);
 });
 
-app.use(ElementPlus).mount("#app");
+app.use(router).use(i18n).use(ElementPlus).mount("#app");

@@ -9,7 +9,11 @@ generatedRoutes.forEach(v => {
 
 const router = createRouter({
 	history: createWebHistory(),
-	routes: routes
+	routes: routes,
+	strict: false,
+	scrollBehavior: () => ({ left: 0, top: 0 })
 });
+
+console.log(routes);
 
 export default router;
