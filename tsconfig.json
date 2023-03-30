@@ -29,9 +29,9 @@
 		"baseUrl": "./",
 		// 模块名到基于 baseUrl 的路径映射的列表。
 		"paths": {
-			"@": ["src"],
 			"@/*": ["src/*"]
-		}
+		},
+		"emitDeclarationOnly": false
 	},
 	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
 	"exclude": ["node_modules", "dist", "**/*.js"],
