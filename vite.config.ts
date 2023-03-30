@@ -12,6 +12,8 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
+import Pages from "vite-plugin-pages";
+import Layouts from "vite-plugin-vue-layouts";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
@@ -51,6 +53,14 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 		},
 		plugins: [
 			vue(),
+			Pages({
+				dirs: "src/views", // 需要生成路由的文件目录
+				exclude: ["**/components/*.vue"] // 排除在外的目录，即所有 components 目录下的 .vue 文件都不会生成路由
+			}),
+			Layouts({
+				layoutsDirs: "src/layouts", // 布局文件存放目录
+				defaultLayout: "index" // 默认布局，对应 src/layouts/index.vue
+			}),
 			//替换 html 中的 title 标签
 			createHtmlPlugin({
 				inject: {
