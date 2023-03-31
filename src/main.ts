@@ -33,6 +33,9 @@ import errorHandler from "@/utils/errorHandler";
 // 导入pinia
 import pinia from "@/stores";
 
+// 导入指令
+import directives from "@/directives";
+
 // 导入svg icons
 import "virtual:svg-icons-register";
 // 创建应用
@@ -47,4 +50,4 @@ Object.keys(Icons).forEach(key => {
 });
 
 // 挂载应用
-app.use(router).use(i18n).use(pinia).use(ElementPlus).mount("#app");
+app.use(router).use(i18n).use(pinia).use(directives).use(ElementPlus).mount("#app");

@@ -1,5 +1,5 @@
 import { defineStore, createPinia } from "pinia";
-import { GlobalState, ThemeConfigProps, AssemblySizeType } from "@stores/interface";
+import { GlobalState, ThemeConfigProps, AssemblySizeType } from "@/stores/interface";
 import { DEFAULT_PRIMARY } from "@/config/config";
 import piniaPersistConfig from "@/config/piniaPersist";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";

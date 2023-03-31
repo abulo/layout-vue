@@ -6,8 +6,9 @@ export interface GlobalState {
 	language: string;
 	themeConfig: ThemeConfigProps;
 }
-
 export type AssemblySizeType = "default" | "small" | "large";
+
+export type LayoutType = "vertical" | "classic" | "transverse" | "columns";
 
 /* themeConfigProp */
 export interface ThemeConfigProps {
