@@ -32,7 +32,7 @@
 			"@/*": ["src/*"]
 		},
 		"emitDeclarationOnly": false,
-		"types": ["vite-plugin-vue-layouts/client", "vite-plugin-pages/client"]
+		"types": ["node", "vite-plugin-vue-layouts/client", "vite-plugin-pages/client"]
 	},
 	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
 	"exclude": ["node_modules", "dist", "**/*.js"],
