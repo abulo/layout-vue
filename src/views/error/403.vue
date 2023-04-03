@@ -9,7 +9,6 @@
 	</div>
 </template>
 
-
 <route>
 {
 	meta:{

@@ -8,10 +8,10 @@
 import { computed, type Component } from "vue";
 import { GlobalStore } from "@/stores";
 import ThemeDrawer from "@/layouts/components/ThemeDrawer/index.vue";
-import LayoutVertical from "./LayoutVertical/index.vue";
-import LayoutClassic from "./LayoutClassic/index.vue";
-import LayoutTransverse from "./LayoutTransverse/index.vue";
-import LayoutColumns from "./LayoutColumns/index.vue";
+import LayoutVertical from "@/layouts/LayoutVertical/index.vue";
+import LayoutClassic from "@/layouts/LayoutClassic/index.vue";
+import LayoutTransverse from "@/layouts/LayoutTransverse/index.vue";
+import LayoutColumns from "@/layouts/LayoutColumns/index.vue";
 
 const LayoutComponents: { [key: string]: Component } = {
 	vertical: LayoutVertical,
@@ -25,7 +25,5 @@ const themeConfig = computed(() => globalStore.themeConfig);
 </script>
 
 <style scoped lang="scss">
-.layout {
-	min-width: 760px;
-}
+@import "./index.scss";
 </style>

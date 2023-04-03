@@ -33,5 +33,5 @@ export const getAuthMenuListApi = () => {
 
 // * 用户退出登录
 export const logoutApi = () => {
-	return http.post(PORT1 + `/logout`);
+	return { code: 200, msg: "成功" };
 };
