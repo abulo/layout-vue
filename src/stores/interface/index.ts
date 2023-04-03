@@ -25,3 +25,31 @@ export interface ThemeConfigProps {
 	tabsIcon: boolean;
 	footer: boolean;
 }
+
+/* tabsMenuProps */
+export interface TabsMenuProps {
+	icon: string;
+	title: string;
+	path: string;
+	name: string;
+	close: boolean;
+}
+
+/* TabsState */
+export interface TabsState {
+	tabsMenuList: TabsMenuProps[];
+}
+
+/* AuthState */
+export interface AuthState {
+	routeName: string;
+	authButtonList: {
+		[key: string]: string[];
+	};
+	authMenuList: Menu.MenuOptions[];
+}
+
+/* keepAliveState */
+export interface keepAliveState {
+	keepAliveName: string[];
+}

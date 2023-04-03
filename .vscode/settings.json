@@ -36,7 +36,5 @@
 	"[less]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-	"i18n-ally.localesPaths": [
-		"src/languages"
-	]
+	"i18n-ally.localesPaths": ["src/languages"]
 }

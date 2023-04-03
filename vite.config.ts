@@ -55,11 +55,13 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			vue(),
 			Pages({
 				dirs: "src/views", // 需要生成路由的文件目录
-				exclude: ["**/components/*.vue"] // 排除在外的目录，即所有 components 目录下的 .vue 文件都不会生成路由
+				exclude: ["**/components/*.vue"], // 排除在外的目录，即所有 components 目录下的 .vue 文件都不会生成路由
+				routeNameSeparator: "." // 路由命名分隔符
 			}),
 			Layouts({
 				layoutsDirs: "src/layouts", // 布局文件存放目录
-				defaultLayout: "index" // 默认布局，对应 src/layouts/index.vue
+				defaultLayout: "index", // 默认布局，对应 src/layouts/index.vue
+				exclude: ["**/components/*.vue"] // 排除在外的目录
 			}),
 			//替换 html 中的 title 标签
 			createHtmlPlugin({
