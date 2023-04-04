@@ -70,3 +70,44 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
 <style scoped lang="scss">
 @import "./index.scss";
 </style>
+
+<style lang="scss">
+.transverse {
+	// 横向菜单布局
+	.el-menu--horizontal {
+		.el-menu-item,
+		.el-sub-menu {
+			height: 54px !important;
+			.el-sub-menu__title {
+				height: 100%;
+			}
+		}
+		.el-sub-menu__hide-arrow {
+			width: 54px !important;
+		}
+	}
+	.el-menu,
+	.el-menu--popup {
+		.el-menu-item {
+			&.is-active {
+				color: #ffffff;
+				background: #060708;
+				&::before {
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					left: 0;
+					width: 4px;
+					content: "";
+					background: var(--el-color-primary);
+				}
+			}
+		}
+	}
+
+	// guide
+	#driver-highlighted-element-stage {
+		background-color: #606266 !important;
+	}
+}
+</style>

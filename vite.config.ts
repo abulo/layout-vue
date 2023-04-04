@@ -12,8 +12,8 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
-import Pages from "vite-plugin-pages";
-import Layouts from "vite-plugin-vue-layouts";
+// import Pages from "vite-plugin-pages";
+// import Layouts from "vite-plugin-vue-layouts";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
@@ -44,7 +44,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 			// 跨域代理配置
 			proxy: {
 				"/api": {
-					// target: "https://mock.mengxuegu.com/mock/629d727e6163854a32e8307e", // easymock
+					target: "https://mock.mengxuegu.com/mock/629d727e6163854a32e8307e", // easymock
 					// target: "https://www.fastmock.site/mock/f81e8333c1a9276214bcdbc170d9e0a0", // fastmock
 					changeOrigin: true,
 					rewrite: path => path.replace(/^\/api/, "")
@@ -53,16 +53,16 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 		},
 		plugins: [
 			vue(),
-			Pages({
-				dirs: "src/views", // 需要生成路由的文件目录
-				exclude: ["**/components/*.vue"], // 排除在外的目录，即所有 components 目录下的 .vue 文件都不会生成路由
-				routeNameSeparator: "." // 路由命名分隔符
-			}),
-			Layouts({
-				layoutsDirs: "src/layouts", // 布局文件存放目录
-				defaultLayout: "index", // 默认布局，对应 src/layouts/index.vue
-				exclude: ["**/components/*.vue"] // 排除在外的目录
-			}),
+			// Pages({
+			// 	dirs: "src/views", // 需要生成路由的文件目录
+			// 	exclude: ["**/components/*.vue"], // 排除在外的目录，即所有 components 目录下的 .vue 文件都不会生成路由
+			// 	routeNameSeparator: "." // 路由命名分隔符
+			// }),
+			// Layouts({
+			// 	layoutsDirs: "src/layouts", // 布局文件存放目录
+			// 	defaultLayout: "index", // 默认布局，对应 src/layouts/index.vue
+			// 	exclude: ["**/components/*.vue"] // 排除在外的目录
+			// }),
 			//替换 html 中的 title 标签
 			createHtmlPlugin({
 				inject: {

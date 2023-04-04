@@ -31,7 +31,7 @@ import { TabsStore } from "@/stores/modules/tabs";
 import { AuthStore } from "@/stores/modules/auth";
 import { KeepAliveStore } from "@/stores/modules/keepAlive";
 import { TabsPaneContext } from "element-plus";
-import MoreButton from "@/layouts/components/Tabs/components/MoreButton.vue";
+import MoreButton from "./components/MoreButton.vue";
 
 const route = useRoute();
 const router = useRouter();

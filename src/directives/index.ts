@@ -1,13 +1,15 @@
 import { App } from "vue";
-import copy from "@/directives/modules/copy";
-import waterMarker from "@/directives/modules/waterMarker";
-import draggable from "@/directives/modules/draggable";
-import debounce from "@/directives/modules/debounce";
-import throttle from "@/directives/modules/throttle";
-import longpress from "@/directives/modules/longpress";
+import auth from "./modules/auth";
+import copy from "./modules/copy";
+import waterMarker from "./modules/waterMarker";
+import draggable from "./modules/draggable";
+import debounce from "./modules/debounce";
+import throttle from "./modules/throttle";
+import longpress from "./modules/longpress";
 
 const directivesList: any = {
 	// Custom directives
+	auth,
 	copy,
 	waterMarker,
 	draggable,

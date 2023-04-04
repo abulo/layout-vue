@@ -57,3 +57,37 @@ const isCollapse = computed(() => globalStore.themeConfig.isCollapse);
 <style scoped lang="scss">
 @import "./index.scss";
 </style>
+
+<style lang="scss">
+.classic {
+	.classic-content {
+		height: calc(100% - 55px); // 减去头部高度
+		.classic-main {
+			display: flex;
+			flex-direction: column;
+		}
+	}
+	.el-menu,
+	.el-menu--popup {
+		.el-menu-item {
+			&.is-active {
+				background: var(--el-color-primary-light-9);
+				&::before {
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					left: 0;
+					width: 4px;
+					content: "";
+					background: var(--el-color-primary);
+				}
+			}
+		}
+	}
+
+	// guide
+	#driver-highlighted-element-stage {
+		background-color: #606266 !important;
+	}
+}
+</style>

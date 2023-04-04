@@ -6,9 +6,6 @@ export interface GlobalState {
 	language: string;
 	themeConfig: ThemeConfigProps;
 }
-export type AssemblySizeType = "default" | "small" | "large";
-
-export type LayoutType = "vertical" | "classic" | "transverse" | "columns";
 
 /* themeConfigProp */
 export interface ThemeConfigProps {
@@ -25,6 +22,10 @@ export interface ThemeConfigProps {
 	tabsIcon: boolean;
 	footer: boolean;
 }
+
+export type AssemblySizeType = "default" | "small" | "large";
+
+export type LayoutType = "vertical" | "classic" | "transverse" | "columns";
 
 /* tabsMenuProps */
 export interface TabsMenuProps {

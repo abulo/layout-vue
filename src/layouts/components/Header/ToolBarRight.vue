@@ -14,13 +14,13 @@
 </template>
 
 <script setup lang="ts">
-import SearchMenu from "@/layouts/components/Header/components/SearchMenu.vue";
-import Fullscreen from "@/layouts/components/Header/components/Fullscreen.vue";
-import Message from "@/layouts/components/Header/components/Message.vue";
-import Language from "@/layouts/components/Header/components/Language.vue";
-import ThemeSetting from "@/layouts/components/Header/components/ThemeSetting.vue";
-import AssemblySize from "@/layouts/components/Header/components/AssemblySize.vue";
-import Avatar from "@/layouts/components/Header/components/Avatar.vue";
+import SearchMenu from "./components/SearchMenu.vue";
+import Fullscreen from "./components/Fullscreen.vue";
+import Message from "./components/Message.vue";
+import Language from "./components/Language.vue";
+import ThemeSetting from "./components/ThemeSetting.vue";
+import AssemblySize from "./components/AssemblySize.vue";
+import Avatar from "./components/Avatar.vue";
 </script>
 
 <style scoped lang="scss">

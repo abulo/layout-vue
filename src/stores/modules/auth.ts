@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import { AuthState } from "@/stores/interface";
+import { getFlatArr } from "@/utils/util";
 import { getAuthButtonListApi, getAuthMenuListApi } from "@/api/modules/login";
-import { getFlatArr, getShowMenuList, getAllBreadcrumbList } from "@/utils/util";
+import { getShowMenuList, getAllBreadcrumbList } from "@/utils/util";
 
 // AuthStore
 export const AuthStore = defineStore({

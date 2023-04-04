@@ -30,8 +30,8 @@ import { LOGIN_URL } from "@/config/config";
 import { logoutApi } from "@/api/modules/login";
 import { useRouter } from "vue-router";
 import { ElMessageBox, ElMessage } from "element-plus";
-import InfoDialog from "@/layouts/components/Header/components/InfoDialog.vue";
-import PasswordDialog from "@/layouts/components/Header/components/PasswordDialog.vue";
+import InfoDialog from "./InfoDialog.vue";
+import PasswordDialog from "./PasswordDialog.vue";
 
 const router = useRouter();
 const globalStore = GlobalStore();

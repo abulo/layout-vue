@@ -20,7 +20,7 @@ import { ref, computed, onBeforeUnmount, provide, watch } from "vue";
 import { useDebounceFn } from "@vueuse/core";
 import { GlobalStore } from "@/stores";
 import { KeepAliveStore } from "@/stores/modules/keepAlive";
-import Maximize from "@/layouts/components/Main/components/Maximize.vue";
+import Maximize from "./components/Maximize.vue";
 import Tabs from "@/layouts/components/Tabs/index.vue";
 import Footer from "@/layouts/components/Footer/index.vue";
 

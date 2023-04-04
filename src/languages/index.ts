@@ -1,6 +1,6 @@
 import { createI18n } from "vue-i18n";
-import zh from "@/languages/modules/zh";
-import en from "@/languages/modules/en";
+import zh from "./modules/zh";
+import en from "./modules/en";
 
 const i18n = createI18n({
 	legacy: false, // 如果要支持 compositionAPI，此项必须设置为 false

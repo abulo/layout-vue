@@ -8,7 +8,7 @@
 			<div class="login-form">
 				<div class="login-logo">
 					<img class="login-icon" src="@/assets/images/logo.svg" alt="" />
-					<h2 class="logo-text">后台管理系统</h2>
+					<h2 class="logo-text">Geeker-Admin</h2>
 				</div>
 				<LoginForm />
 			</div>
@@ -18,16 +18,8 @@
 
 <script setup lang="ts" name="login">
 import SwitchDark from "@/components/SwitchDark/index.vue";
-import LoginForm from "@/views/login/components/LoginForm.vue";
+import LoginForm from "./components/LoginForm.vue";
 </script>
-
-<route>
-{
-	meta: {
-	layout: false,
-	}
-}
-</route>
 
 <style scoped lang="scss">
 @import "./index.scss";
