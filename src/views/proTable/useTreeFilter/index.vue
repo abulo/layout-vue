@@ -78,7 +78,7 @@ const initParam = reactive({ departmentId: "1" });
 // 树形筛选切换
 const changeTreeFilter = (val: string) => {
 	ElMessage.success("请注意查看请求参数变化 🤔");
-	proTable.value.pageable.pageNumber = 1;
+	proTable.value.pageable.pageNum = 1;
 	initParam.departmentId = val;
 };
 

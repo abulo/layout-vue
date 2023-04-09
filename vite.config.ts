@@ -6,7 +6,7 @@ import { wrapperEnv } from "./src/utils/getEnv";
 import { visualizer } from "rollup-plugin-visualizer";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import viteCompression from "vite-plugin-compression";
-import vueSetupExtend from "vite-plugin-vue-setup-extend";
+import vueSetupExtend from "vite-plugin-vue-setup-extend-plus";
 import eslintPlugin from "vite-plugin-eslint";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import AutoImport from "unplugin-auto-import/vite";
