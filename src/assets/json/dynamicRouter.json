@@ -814,7 +814,7 @@
 					"name": "accountManage",
 					"component": "/system/accountManage/index",
 					"meta": {
-						"icon": "Menu",
+						"icon": "Tools",
 						"title": "账号管理",
 						"isLink": "",
 						"isHide": false,
@@ -898,7 +898,7 @@
 					"name": "systemLog",
 					"component": "/system/systemLog/index",
 					"meta": {
-						"icon": "Menu",
+						"icon": "DocumentCopy",
 						"title": "系统日志",
 						"isLink": "",
 						"isHide": false,
