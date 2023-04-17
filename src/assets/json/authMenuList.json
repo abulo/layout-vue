@@ -234,6 +234,37 @@
 					}
 				},
 				{
+					"path": "/assembly/tabs",
+					"name": "tabs",
+					"component": "/assembly/tabs/index",
+					"meta": {
+						"icon": "Menu",
+						"title": "标签页操作",
+						"isLink": "",
+						"isHide": false,
+						"isFull": false,
+						"isAffix": false,
+						"isKeepAlive": true
+					},
+					"children": [
+						{
+							"path": "/assembly/tabs/detail/:id",
+							"name": "tabsDetail",
+							"component": "/assembly/tabs/detail",
+							"meta": {
+								"icon": "Menu",
+								"title": "Tab 详情",
+								"activeMenu": "/assembly/tabs",
+								"isLink": "",
+								"isHide": true,
+								"isFull": false,
+								"isAffix": false,
+								"isKeepAlive": true
+							}
+						}
+					]
+				},
+				{
 					"path": "/assembly/selectIcon",
 					"name": "selectIcon",
 					"component": "/assembly/selectIcon/index",
@@ -814,7 +845,7 @@
 					"name": "accountManage",
 					"component": "/system/accountManage/index",
 					"meta": {
-						"icon": "Tools",
+						"icon": "Menu",
 						"title": "账号管理",
 						"isLink": "",
 						"isHide": false,
@@ -898,7 +929,7 @@
 					"name": "systemLog",
 					"component": "/system/systemLog/index",
 					"meta": {
-						"icon": "DocumentCopy",
+						"icon": "Menu",
 						"title": "系统日志",
 						"isLink": "",
 						"isHide": false,
@@ -980,6 +1011,20 @@
 					}
 				}
 			]
+		},
+		{
+			"path": "/about/index",
+			"name": "about",
+			"component": "/about/index",
+			"meta": {
+				"icon": "InfoFilled",
+				"title": "关于项目",
+				"isLink": "",
+				"isHide": false,
+				"isFull": false,
+				"isAffix": false,
+				"isKeepAlive": true
+			}
 		}
 	],
 	"msg": "成功"

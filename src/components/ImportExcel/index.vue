@@ -25,9 +25,7 @@
 					</slot>
 					<template #tip>
 						<slot name="tip">
-							<div class="el-upload__tip">
-								请上传 .xls , .xlsx 标准格式文件，文件最大为 {{ parameter.fileSize }}M
-							</div>
+							<div class="el-upload__tip">请上传 .xls , .xlsx 标准格式文件，文件最大为 {{ parameter.fileSize }}M</div>
 						</slot>
 					</template>
 				</el-upload>

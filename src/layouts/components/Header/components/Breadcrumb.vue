@@ -1,10 +1,10 @@
 <template>
-	<div :class="['breadcrumb-box', !themeConfig.breadcrumbIcon && 'no-icon']">
+	<div :class="['breadcrumb-box', !globalStore.breadcrumbIcon && 'no-icon']">
 		<el-breadcrumb :separator-icon="ArrowRight">
 			<transition-group name="breadcrumb">
 				<el-breadcrumb-item v-for="(item, index) in breadcrumbList" :key="item.path">
 					<div class="el-breadcrumb__inner is-link" @click="onBreadcrumbClick(item, index)">
-						<el-icon class="breadcrumb-icon" v-show="item.meta.icon && themeConfig.breadcrumbIcon">
+						<el-icon class="breadcrumb-icon" v-show="item.meta.icon && globalStore.breadcrumbIcon">
 							<component :is="item.meta.icon"></component>
 						</el-icon>
 						<span class="breadcrumb-title">{{ item.meta.title }}</span>
@@ -17,26 +17,27 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { GlobalStore } from "@/stores";
-import { AuthStore } from "@/stores/modules/auth";
-import { ArrowRight } from "@element-plus/icons-vue";
+import { HOME_URL } from "@/config";
 import { useRoute, useRouter } from "vue-router";
-import { HOME_URL } from "@/config/config";
+import { ArrowRight } from "@element-plus/icons-vue";
+import { useAuthStore } from "@/stores/modules/auth";
+import { useGlobalStore } from "@/stores/modules/global";
 
 const route = useRoute();
 const router = useRouter();
-const authStore = AuthStore();
-const globalStore = GlobalStore();
-const themeConfig = computed(() => globalStore.themeConfig);
+const authStore = useAuthStore();
+const globalStore = useGlobalStore();
+
 const breadcrumbList = computed(() => {
 	let breadcrumbData = authStore.breadcrumbListGet[route.matched[route.matched.length - 1].path] ?? [];
 	// 🙅‍♀️不需要首页面包屑可删除以下判断
-	if (breadcrumbData[0].meta.title !== route.meta.title) {
+	if (breadcrumbData[0].path !== HOME_URL) {
 		breadcrumbData = [{ path: HOME_URL, meta: { icon: "HomeFilled", title: "首页" } }, ...breadcrumbData];
 	}
 	return breadcrumbData;
 });
 
+// Click Breadcrumb
 const onBreadcrumbClick = (item: Menu.MenuOptions, index: number) => {
 	if (index !== breadcrumbList.value.length - 1) router.push(item.path);
 };

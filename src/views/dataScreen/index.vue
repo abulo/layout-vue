@@ -66,7 +66,7 @@
 								</div>
 							</div>
 						</vue3-seamless-scroll> -->
-						<mapChart ref="MapchartRef" />
+						<mapChart ref="MapChartRef" />
 					</div>
 					<div class="dataScreen-cb">
 						<div class="dataScreen-main-title">
@@ -116,10 +116,10 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="dataScreen">
 import { ref, Ref, onMounted, onBeforeUnmount } from "vue";
-import { HOME_URL } from "@/config/config";
-import { randomNum } from "@/utils/util";
+import { HOME_URL } from "@/config";
+import { randomNum } from "@/utils";
 import { useRouter } from "vue-router";
 import { useTime } from "@/hooks/useTime";
 import { ECharts } from "echarts";
@@ -131,8 +131,6 @@ import MaleFemaleRatioChart from "./components/MaleFemaleRatioChart.vue";
 import OverNext30Chart from "./components/OverNext30Chart.vue";
 import PlatformSourceChart from "./components/PlatformSourceChart.vue";
 import RealTimeAccessChart from "./components/RealTimeAccessChart.vue";
-// import { Vue3SeamlessScroll } from "vue3-seamless-scroll";
-// import alarmList from "./assets/alarmList.json";
 
 const router = useRouter();
 const dataScreenRef = ref<HTMLElement | null>(null);
@@ -144,11 +142,29 @@ onMounted(() => {
 		dataScreenRef.value.style.width = `1920px`;
 		dataScreenRef.value.style.height = `1080px`;
 	}
-	// 初始化echarts
+	// 初始化 echarts
 	initCharts();
 	// 为浏览器绑定事件
 	window.addEventListener("resize", resize);
 });
+
+// 根据浏览器大小推断缩放比例
+const getScale = (width = 1920, height = 1080) => {
+	let ww = window.innerWidth / width;
+	let wh = window.innerHeight / height;
+	return ww < wh ? ww : wh;
+};
+
+// 监听浏览器 resize 事件
+const resize = () => {
+	if (dataScreenRef.value) {
+		dataScreenRef.value.style.transform = `scale(${getScale()}) translate(-50%, -50%)`;
+	}
+	// 使用了 scale 的echarts其实不需要需要重新计算缩放比例
+	Object.values(dataScreen).forEach(chart => {
+		chart && chart.resize();
+	});
+};
 
 // 声明echarts实例
 interface ChartProps {
@@ -176,7 +192,7 @@ const HotPlateRef = ref<ChartExpose>();
 const MaleFemaleRatioRef = ref<ChartExpose>();
 const OverNext30Ref = ref<ChartExpose>();
 const PlatformSourceRef = ref<ChartExpose>();
-const MapchartRef = ref<ChartExpose>();
+const MapChartRef = ref<ChartExpose>();
 
 // 初始化 charts参数
 let ageData = [
@@ -375,33 +391,7 @@ const initCharts = (): void => {
 		data: platFromData,
 		colors: ["#078dbc", "#6ad40b", "#6172fc", "#1786ff", "#ffbe2f", "#4dc89d", "#b797df", "#ffd3aa"]
 	}) as ECharts;
-	dataScreen.mapChart = MapchartRef.value?.initChart(mapData) as ECharts;
-};
-
-// 大屏告警数据
-// interface AlarmProps {
-// 	id: number;
-// 	warnMsg: string;
-// 	label: string;
-// }
-// const alarmData: AlarmProps[] = reactive(alarmList);
-
-// 根据浏览器大小推断缩放比例
-const getScale = (width = 1920, height = 1080) => {
-	let ww = window.innerWidth / width;
-	let wh = window.innerHeight / height;
-	return ww < wh ? ww : wh;
-};
-
-// 监听浏览器 resize 事件
-const resize = () => {
-	if (dataScreenRef.value) {
-		dataScreenRef.value.style.transform = `scale(${getScale()}) translate(-50%, -50%)`;
-	}
-	// 使用了 scale 的echarts其实不需要需要重新计算缩放比例
-	Object.values(dataScreen).forEach(chart => {
-		chart && chart.resize();
-	});
+	dataScreen.mapChart = MapChartRef.value?.initChart(mapData) as ECharts;
 };
 
 // 获取当前时间

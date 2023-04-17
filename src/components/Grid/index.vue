@@ -5,20 +5,7 @@
 </template>
 
 <script setup lang="ts" name="Grid">
-import {
-	ref,
-	watch,
-	useSlots,
-	computed,
-	provide,
-	onBeforeMount,
-	onMounted,
-	onUnmounted,
-	onDeactivated,
-	onActivated,
-	VNodeArrayChildren,
-	VNode
-} from "vue";
+import { ref, watch, useSlots, computed, provide, onBeforeMount, onMounted, onUnmounted, onDeactivated, onActivated, VNodeArrayChildren, VNode } from "vue";
 import type { BreakPoint } from "./interface/index";
 
 type Props = {
@@ -99,23 +86,18 @@ const findIndex = () => {
 	let suffix: any = null;
 	slots.forEach((slot: any) => {
 		if (typeof slot.type === "object" && slot.type.name === "GridItem" && slot.props?.suffix !== undefined) suffix = slot;
-		if (typeof slot.type === "symbol" && Array.isArray(slot.children))
-			slot.children.forEach((child: any) => fields.push(child));
+		if (typeof slot.type === "symbol" && Array.isArray(slot.children)) slot.children.forEach((child: any) => fields.push(child));
 	});
 
 	// 计算 suffix 所占用的列
 	let suffixCols = 0;
 	if (suffix) {
-		suffixCols =
-			(suffix.props![breakPoint.value]?.span ?? suffix.props?.span ?? 1) +
-			(suffix.props![breakPoint.value]?.offset ?? suffix.props?.offset ?? 0);
+		suffixCols = (suffix.props![breakPoint.value]?.span ?? suffix.props?.span ?? 1) + (suffix.props![breakPoint.value]?.offset ?? suffix.props?.offset ?? 0);
 	}
 	try {
 		let find = false;
 		fields.reduce((prev = 0, current, index) => {
-			prev +=
-				((current as VNode)!.props![breakPoint.value]?.span ?? (current as VNode)!.props?.span ?? 1) +
-				((current as VNode)!.props![breakPoint.value]?.offset ?? (current as VNode)!.props?.offset ?? 0);
+			prev += ((current as VNode)!.props![breakPoint.value]?.span ?? (current as VNode)!.props?.span ?? 1) + ((current as VNode)!.props![breakPoint.value]?.offset ?? (current as VNode)!.props?.offset ?? 0);
 			if ((prev as number) > props.collapsedRows * cols.value - suffixCols) {
 				hiddenIndex.value = index;
 				find = true;

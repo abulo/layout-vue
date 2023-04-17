@@ -2,6 +2,9 @@
 .is-error {
 	.editor-box {
 		border-color: var(--el-color-danger);
+		.editor-toolbar {
+			border-bottom-color: var(--el-color-danger);
+		}
 	}
 }
 

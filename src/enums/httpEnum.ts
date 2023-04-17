@@ -1,4 +1,3 @@
-// * 请求枚举配置
 /**
  * @description：请求配置
  */
@@ -22,7 +21,7 @@ export enum RequestEnum {
 }
 
 /**
- * @description：常用的contentTyp类型
+ * @description：常用的 contentTyp 类型
  */
 export enum ContentTypeEnum {
 	// json

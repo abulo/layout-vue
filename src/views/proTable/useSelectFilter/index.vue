@@ -1,24 +1,11 @@
 <template>
 	<div class="main-box">
-		<TreeFilter
-			title="部门列表(多选)"
-			multiple
-			label="name"
-			:requestApi="getUserDepartment"
-			:defaultValue="treeFilterValues.departmentId"
-			@change="changeTreeFilter"
-		/>
+		<TreeFilter title="部门列表(多选)" multiple label="name" :request-api="getUserDepartment" :default-value="treeFilterValues.departmentId" @change="changeTreeFilter" />
 		<div class="table-box">
 			<div class="card mb10 pt0 pb0">
-				<SelectFilter :data="selectFilterData" :defaultValues="selectFilterValues" @change="changeSelectFilter" />
+				<SelectFilter :data="selectFilterData" :default-values="selectFilterValues" @change="changeSelectFilter" />
 			</div>
-			<ProTable
-				ref="proTable"
-				title="用户列表"
-				:columns="columns"
-				:requestApi="getUserList"
-				:initParam="Object.assign(treeFilterValues, selectFilterValues)"
-			>
+			<ProTable ref="proTable" title="用户列表" :columns="columns" :request-api="getUserList" :init-param="Object.assign(treeFilterValues, selectFilterValues)">
 				<!-- 表格 header 按钮 -->
 				<template #tableHeader>
 					<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增用户</el-button>
@@ -52,17 +39,7 @@ import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/proTable/components/UserDrawer.vue";
 import SelectFilter from "@/components/SelectFilter/index.vue";
 import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from "@element-plus/icons-vue";
-import {
-	getUserList,
-	deleteUser,
-	editUser,
-	addUser,
-	resetUserPassWord,
-	exportUserInfo,
-	BatchAddUser,
-	getUserDepartment,
-	getUserRole
-} from "@/api/modules/user";
+import { getUserList, deleteUser, editUser, addUser, resetUserPassWord, exportUserInfo, BatchAddUser, getUserDepartment, getUserRole } from "@/api/modules/user";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
@@ -162,9 +139,7 @@ const resetPass = async (params: User.ResUserList) => {
 
 // 导出用户列表
 const downloadFile = async () => {
-	ElMessageBox.confirm("确认导出用户数据?", "温馨提示", { type: "warning" }).then(() =>
-		useDownload(exportUserInfo, "用户列表", proTable.value.searchParam)
-	);
+	ElMessageBox.confirm("确认导出用户数据?", "温馨提示", { type: "warning" }).then(() => useDownload(exportUserInfo, "用户列表", proTable.value.searchParam));
 };
 
 // 批量添加用户
@@ -181,11 +156,11 @@ const batchAdd = () => {
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref<InstanceType<typeof UserDrawer> | null>(null);
-const openDrawer = (title: string, rowData: Partial<User.ResUserList> = {}) => {
+const openDrawer = (title: string, row: Partial<User.ResUserList> = {}) => {
 	const params = {
 		title,
 		isView: title === "查看",
-		rowData: { ...rowData },
+		row: { ...row },
 		api: title === "新增" ? addUser : title === "编辑" ? editUser : undefined,
 		getTableList: proTable.value.getTableList
 	};

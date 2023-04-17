@@ -1,24 +1,8 @@
 <template>
 	<div class="main-box">
-		<TreeFilter
-			label="name"
-			title="部门列表(单选)"
-			:data="treeFilterData"
-			:defaultValue="initParam.departmentId"
-			@change="changeTreeFilter"
-		/>
+		<TreeFilter label="name" title="部门列表(单选)" :data="treeFilterData" :default-value="initParam.departmentId" @change="changeTreeFilter" />
 		<div class="table-box">
-			<ProTable
-				ref="proTable"
-				title="用户列表"
-				rowKey="id"
-				:indent="30"
-				:columns="columns"
-				:requestApi="getUserTreeList"
-				:requestAuto="false"
-				:initParam="initParam"
-				:searchCol="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3 }"
-			>
+			<ProTable ref="proTable" title="用户列表" row-key="id" :indent="30" :columns="columns" :request-api="getUserTreeList" :request-auto="false" :init-param="initParam" :search-col="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3 }">
 				<!-- 表格 header 按钮 -->
 				<template #tableHeader>
 					<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增用户</el-button>
@@ -143,10 +127,10 @@ const deleteAccount = async (params: User.ResUserList) => {
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref<InstanceType<typeof UserDrawer> | null>(null);
-const openDrawer = (title: string, rowData: Partial<User.ResUserList> = {}) => {
+const openDrawer = (title: string, row: Partial<User.ResUserList> = {}) => {
 	const params = {
 		title,
-		rowData: { ...rowData },
+		row: { ...row },
 		isView: title === "查看",
 		api: title === "新增" ? addUser : title === "编辑" ? editUser : undefined,
 		getTableList: proTable.value.getTableList

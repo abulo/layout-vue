@@ -1,28 +1,13 @@
 <template>
 	<div class="table-box">
-		<ProTable
-			ref="proTable"
-			title="用户列表"
-			:columns="columns"
-			:requestApi="getTableList"
-			:initParam="initParam"
-			:dataCallback="dataCallback"
-		>
+		<ProTable ref="proTable" title="用户列表" :columns="columns" :request-api="getTableList" :init-param="initParam" :data-callback="dataCallback">
 			<!-- 表格 header 按钮 -->
 			<template #tableHeader="scope">
 				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-auth="'add'">新增用户</el-button>
 				<el-button type="primary" :icon="Upload" plain @click="batchAdd" v-auth="'batchAdd'">批量添加用户</el-button>
 				<el-button type="primary" :icon="Download" plain @click="downloadFile" v-auth="'export'">导出用户数据</el-button>
 				<el-button type="primary" plain @click="toDetail">To 子集详情页面</el-button>
-				<el-button
-					type="danger"
-					:icon="Delete"
-					plain
-					@click="batchDelete(scope.selectedListIds)"
-					:disabled="!scope.isSelected"
-				>
-					批量删除用户
-				</el-button>
+				<el-button type="danger" :icon="Delete" plain @click="batchDelete(scope.selectedListIds)" :disabled="!scope.isSelected"> 批量删除用户 </el-button>
 			</template>
 			<!-- Expand -->
 			<template #expand="scope">
@@ -55,29 +40,18 @@
 
 <script setup lang="tsx" name="useProTable">
 import { ref, reactive } from "vue";
-import { ElMessage, ElMessageBox } from "element-plus";
 import { useRouter } from "vue-router";
 import { User } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import { useDownload } from "@/hooks/useDownload";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
+import { ElMessage, ElMessageBox } from "element-plus";
 import ProTable from "@/components/ProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/proTable/components/UserDrawer.vue";
 import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from "@element-plus/icons-vue";
-import {
-	getUserList,
-	deleteUser,
-	editUser,
-	addUser,
-	changeUserStatus,
-	resetUserPassWord,
-	exportUserInfo,
-	BatchAddUser,
-	getUserStatus,
-	getUserGender
-} from "@/api/modules/user";
+import { getUserList, deleteUser, editUser, addUser, changeUserStatus, resetUserPassWord, exportUserInfo, BatchAddUser, getUserStatus, getUserGender } from "@/api/modules/user";
 
 const router = useRouter();
 
@@ -172,13 +146,7 @@ const columns: ColumnProps<User.ResUserList>[] = [
 			return (
 				<>
 					{BUTTONS.value.status ? (
-						<el-switch
-							model-value={scope.row.status}
-							active-text={scope.row.status ? "启用" : "禁用"}
-							active-value={1}
-							inactive-value={0}
-							onClick={() => changeStatus(scope.row)}
-						/>
+						<el-switch model-value={scope.row.status} active-text={scope.row.status ? "启用" : "禁用"} active-value={1} inactive-value={0} onClick={() => changeStatus(scope.row)} />
 					) : (
 						<el-tag type={scope.row.status ? "success" : "danger"}>{scope.row.status ? "启用" : "禁用"}</el-tag>
 					)}
@@ -228,9 +196,7 @@ const changeStatus = async (row: User.ResUserList) => {
 
 // 导出用户列表
 const downloadFile = async () => {
-	ElMessageBox.confirm("确认导出用户数据?", "温馨提示", { type: "warning" }).then(() =>
-		useDownload(exportUserInfo, "用户列表", proTable.value.searchParam)
-	);
+	ElMessageBox.confirm("确认导出用户数据?", "温馨提示", { type: "warning" }).then(() => useDownload(exportUserInfo, "用户列表", proTable.value.searchParam));
 };
 
 // 批量添加用户
@@ -247,11 +213,11 @@ const batchAdd = () => {
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref<InstanceType<typeof UserDrawer> | null>(null);
-const openDrawer = (title: string, rowData: Partial<User.ResUserList> = {}) => {
+const openDrawer = (title: string, row: Partial<User.ResUserList> = {}) => {
 	const params = {
 		title,
 		isView: title === "查看",
-		rowData: { ...rowData },
+		row: { ...row },
 		api: title === "新增" ? addUser : title === "编辑" ? editUser : undefined,
 		getTableList: proTable.value.getTableList
 	};

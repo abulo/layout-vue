@@ -49,8 +49,8 @@
 
 <script setup lang="ts" name="UploadImg">
 import { ref, computed, inject } from "vue";
+import { generateUUID } from "@/utils";
 import { uploadImg } from "@/api/modules/upload";
-import { generateUUID } from "@/utils/util";
 import { ElNotification, formContextKey, formItemContextKey } from "element-plus";
 import type { UploadProps, UploadRequestOptions } from "element-plus";
 
@@ -175,6 +175,7 @@ const uploadError = () => {
 	});
 };
 </script>
+
 <style scoped lang="scss">
 .is-error {
 	.upload {

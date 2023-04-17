@@ -7,9 +7,7 @@
 			<el-descriptions-item label="value"> 双向绑定的 value 值，使用示例： v-model:value="content"> </el-descriptions-item>
 			<el-descriptions-item label="toolbarConfig">
 				富文本 ToolBar区域 配置：
-				<a href="https://www.wangeditor.com/v5/toolbar-config.html">
-					https://www.wangeditor.com/v5/toolbar-config.html
-				</a>
+				<a href="https://www.wangeditor.com/v5/toolbar-config.html"> https://www.wangeditor.com/v5/toolbar-config.html </a>
 			</el-descriptions-item>
 			<el-descriptions-item label="editorConfig">
 				富文本 编辑区域 配置：

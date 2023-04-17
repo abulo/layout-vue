@@ -1,17 +1,6 @@
 <template>
-	<el-popover
-		:placement="placement"
-		trigger="focus"
-		:hide-after="0"
-		:width="state.selectorWidth"
-		:visible="state.popoverVisible"
-		:show-arrow="false"
-	>
-		<div
-			@mouseover.stop="state.iconSelectorMouseover = true"
-			@mouseout.stop="state.iconSelectorMouseover = false"
-			class="icon-selector"
-		>
+	<el-popover :placement="placement" trigger="focus" :hide-after="0" :width="state.selectorWidth" :visible="state.popoverVisible" :show-arrow="false">
+		<div @mouseover.stop="state.iconSelectorMouseover = true" @mouseout.stop="state.iconSelectorMouseover = false" class="icon-selector">
 			<transition name="el-zoom-in-center">
 				<div class="icon-selector-box">
 					<div class="selector-header">
@@ -20,13 +9,7 @@
 					<div class="selector-body">
 						<el-scrollbar ref="selectorScrollbarRef" height="20vh">
 							<div v-if="renderFontIconNames.length > 0">
-								<div
-									class="icon-selector-item"
-									:title="item"
-									@click="onIcon(item)"
-									v-for="(item, key) in renderFontIconNames"
-									:key="key"
-								>
+								<div class="icon-selector-item" :title="item" @click="onIcon(item)" v-for="(item, key) in renderFontIconNames" :key="key">
 									<el-button :icon="customIcons[item]" />
 								</div>
 							</div>
@@ -36,22 +19,10 @@
 			</transition>
 		</div>
 		<template #reference>
-			<el-input
-				v-model="state.inputValue"
-				:size="size"
-				:disabled="disabled"
-				:placeholder="placeholder"
-				ref="selectorInput"
-				@focus="onInputFocus"
-				@blur="onInputBlur"
-				:class="'size-' + size"
-			>
+			<el-input v-model="state.inputValue" :size="size" :disabled="disabled" :placeholder="placeholder" ref="selectorInput" @focus="onInputFocus" @blur="onInputBlur" :class="'size-' + size">
 				<template #prepend>
 					<div class="icon-prepend">
-						<el-button
-							:key="'icon' + state.iconKey"
-							:icon="customIcons[state.prependIcon ? state.prependIcon : state.defaultModelValue]"
-						/>
+						<el-button :key="'icon' + state.iconKey" :icon="customIcons[state.prependIcon ? state.prependIcon : state.defaultModelValue]" />
 						<div v-if="showIconName" class="name">
 							{{ state.prependIcon ? state.prependIcon : state.defaultModelValue }}
 						</div>

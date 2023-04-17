@@ -1,21 +1,14 @@
 import { ElNotification } from "element-plus";
 
 /**
- * @description 接收数据流生成blob，创建链接，下载文件
- * @param {Function} api 导出表格的api方法(必传)
- * @param {String} tempName 导出的文件名(必传)
- * @param {Object} params 导出的参数(默认为空对象)
- * @param {Boolean} isNotify 是否有导出消息提示(默认为 true)
- * @param {String} fileType 导出的文件格式(默认为.xlsx)
- * @return void
+ * @description 接收数据流生成 blob，创建链接，下载文件
+ * @param {Function} api 导出表格的api方法 (必传)
+ * @param {String} tempName 导出的文件名 (必传)
+ * @param {Object} params 导出的参数 (默认{})
+ * @param {Boolean} isNotify 是否有导出消息提示 (默认为 true)
+ * @param {String} fileType 导出的文件格式 (默认为.xlsx)
  * */
-export const useDownload = async (
-	api: (param: any) => Promise<any>,
-	tempName: string,
-	params: any = {},
-	isNotify: boolean = true,
-	fileType: string = ".xlsx"
-) => {
+export const useDownload = async (api: (param: any) => Promise<any> | any, tempName: string, params: any = {}, isNotify: boolean = true, fileType: string = ".xlsx") => {
 	if (isNotify) {
 		ElNotification({
 			title: "温馨提示",
@@ -26,9 +19,6 @@ export const useDownload = async (
 	}
 	try {
 		const res = await api(params);
-		// const blob = new Blob([res], {
-		// 	type: "application/vnd.ms-excel;charset=UTF-8"
-		// });
 		const blob = new Blob([res]);
 		// 兼容 edge 不支持 createObjectURL 方法
 		if ("msSaveOrOpenBlob" in navigator) return window.navigator.msSaveOrOpenBlob(blob, tempName + fileType);

@@ -76,7 +76,7 @@ onBeforeMount(async () => {
 	}
 });
 
-// 使用 nextTick 防止打包后赋值不生效
+// 使用 nextTick 防止打包后赋值不生效，开发环境是正常的
 watch(
 	() => props.defaultValue,
 	() => nextTick(() => setSelected()),

@@ -5,13 +5,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { GlobalStore } from "@/stores";
+import { useGlobalStore } from "@/stores/modules/global";
 
-const globalStore = GlobalStore();
-const themeConfig = computed(() => globalStore.themeConfig);
+const globalStore = useGlobalStore();
 const exitMaximize = () => {
-	globalStore.setThemeConfig({ ...themeConfig.value, maximize: false });
+	globalStore.setGlobalState("maximize", false);
 };
 </script>
 

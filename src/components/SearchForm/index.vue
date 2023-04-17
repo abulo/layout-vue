@@ -4,7 +4,7 @@
 			<Grid ref="gridRef" :collapsed="collapsed" :gap="[20, 0]" :cols="searchCol">
 				<GridItem v-for="(item, index) in columns" :key="item.prop" v-bind="getResponsive(item)" :index="index">
 					<el-form-item :label="`${item.label} :`">
-						<SearchFormItem :column="item" :searchParam="searchParam" />
+						<SearchFormItem :column="item" :search-param="searchParam" />
 					</el-form-item>
 				</GridItem>
 				<GridItem suffix>
@@ -70,9 +70,7 @@ const breakPoint = computed<BreakPoint>(() => gridRef.value?.breakPoint);
 const showCollapse = computed(() => {
 	let show = false;
 	props.columns.reduce((prev, current) => {
-		prev +=
-			(current.search![breakPoint.value]?.span ?? current.search?.span ?? 1) +
-			(current.search![breakPoint.value]?.offset ?? current.search?.offset ?? 0);
+		prev += (current.search![breakPoint.value]?.span ?? current.search?.span ?? 1) + (current.search![breakPoint.value]?.offset ?? current.search?.offset ?? 0);
 		if (typeof props.searchCol !== "number") {
 			if (prev >= props.searchCol[breakPoint.value]) show = true;
 		} else {

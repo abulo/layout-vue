@@ -1,27 +1,36 @@
 <template>
-	<el-config-provider :locale="i18nLocale" :button="config" :size="assemblySize">
+	<el-config-provider :locale="locale" :size="assemblySize" :button="buttonConfig">
 		<router-view></router-view>
 	</el-config-provider>
 </template>
 
 <script setup lang="ts">
-import { reactive, computed } from "vue";
-import { GlobalStore } from "@/stores";
+import { onMounted, reactive, computed } from "vue";
+import { useI18n } from "vue-i18n";
+import { getBrowserLang } from "@/utils";
 import { useTheme } from "@/hooks/useTheme";
-import { getBrowserLang } from "@/utils/util";
 import { ElConfigProvider } from "element-plus";
-import zhCn from "element-plus/es/locale/lang/zh-cn";
-import en from "element-plus/es/locale/lang/en";
+import { useGlobalStore } from "@/stores/modules/global";
 
-const globalStore = GlobalStore();
+import en from "element-plus/es/locale/lang/en";
+import zhCn from "element-plus/es/locale/lang/zh-cn";
+
+const globalStore = useGlobalStore();
+
+// init theme
 const { initTheme } = useTheme();
 initTheme();
 
-// element config
-const config = reactive({ autoInsertSpace: false });
+// init language
+const i18n = useI18n();
+onMounted(() => {
+	const language = globalStore.language ?? getBrowserLang();
+	i18n.locale.value = language;
+	globalStore.setGlobalState("language", language);
+});
 
 // element language
-const i18nLocale = computed(() => {
+const locale = computed(() => {
 	if (globalStore.language == "zh") return zhCn;
 	if (globalStore.language == "en") return en;
 	return getBrowserLang() == "zh" ? zhCn : en;
@@ -29,4 +38,7 @@ const i18nLocale = computed(() => {
 
 // element assemblySize
 const assemblySize = computed(() => globalStore.assemblySize);
+
+// element button config
+const buttonConfig = reactive({ autoInsertSpace: false });
 </script>

@@ -10,8 +10,8 @@
 </template>
 
 <script setup lang="ts" name="404">
+import { HOME_URL } from "@/config";
 import { useRouter } from "vue-router";
-import { HOME_URL } from "@/config/config";
 const router = useRouter();
 </script>
 

@@ -2,28 +2,16 @@
 
 <template>
 	<!-- 查询表单 card -->
-	<SearchForm
-		:search="search"
-		:reset="reset"
-		:searchParam="searchParam"
-		:columns="searchColumns"
-		:searchCol="searchCol"
-		v-show="isShowSearch"
-	/>
+	<SearchForm :search="search" :reset="reset" :search-param="searchParam" :columns="searchColumns" :search-col="searchCol" v-show="isShowSearch" />
 
 	<!-- 表格内容 card -->
 	<div class="card table-main">
 		<!-- 表格头部 操作按钮 -->
 		<div class="table-header">
 			<div class="header-button-lf">
-				<slot
-					name="tableHeader"
-					:selectedListIds="selectedListIds"
-					:selectedList="selectedList"
-					:isSelected="isSelected"
-				/>
+				<slot name="tableHeader" :selectedListIds="selectedListIds" :selectedList="selectedList" :isSelected="isSelected" />
 			</div>
-			<div class="header-button-ri">
+			<div class="header-button-ri" v-if="toolButton">
 				<slot name="toolButton">
 					<el-button :icon="Refresh" circle @click="getTableList" />
 					<el-button :icon="Printer" circle v-if="columns.length" @click="handlePrint" />
@@ -33,25 +21,12 @@
 			</div>
 		</div>
 		<!-- 表格主体 -->
-		<el-table
-			ref="tableRef"
-			v-bind="$attrs"
-			:data="tableData"
-			:border="border"
-			:row-key="rowKey"
-			@selection-change="selectionChange"
-		>
+		<el-table ref="tableRef" v-bind="$attrs" :data="tableData" :border="border" :row-key="rowKey" @selection-change="selectionChange">
 			<!-- 默认插槽 -->
 			<slot></slot>
 			<template v-for="item in tableColumns" :key="item">
 				<!-- selection || index -->
-				<el-table-column
-					v-bind="item"
-					:align="item.align ?? 'center'"
-					:reserve-selection="item.type == 'selection'"
-					v-if="item.type == 'selection' || item.type == 'index'"
-				>
-				</el-table-column>
+				<el-table-column v-bind="item" :align="item.align ?? 'center'" :reserve-selection="item.type == 'selection'" v-if="item.type == 'selection' || item.type == 'index'"> </el-table-column>
 				<!-- expand 支持 tsx 语法 && 作用域插槽 (tsx > slot) -->
 				<el-table-column v-bind="item" :align="item.align ?? 'center'" v-if="item.type == 'expand'" v-slot="scope">
 					<component :is="item.render" v-bind="scope" v-if="item.render"> </component>
@@ -80,16 +55,11 @@
 		</el-table>
 		<!-- 分页组件 -->
 		<slot name="pagination">
-			<Pagination
-				v-if="pagination"
-				:pageable="pageable"
-				:handleSizeChange="handleSizeChange"
-				:handleCurrentChange="handleCurrentChange"
-			/>
+			<Pagination v-if="pagination" :pageable="pageable" :handle-size-change="handleSizeChange" :handle-current-change="handleCurrentChange" />
 		</slot>
 	</div>
 	<!-- 列设置 -->
-	<ColSetting v-if="toolButton" ref="colRef" v-model:colSetting="colSetting" />
+	<ColSetting v-if="toolButton" ref="colRef" v-model:col-setting="colSetting" />
 </template>
 
 <script setup lang="ts" name="ProTable">
@@ -100,7 +70,7 @@ import { BreakPoint } from "@/components/Grid/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { ElTable, TableProps } from "element-plus";
 import { Refresh, Printer, Operation, Search } from "@element-plus/icons-vue";
-import { filterEnum, formatValue, handleProp, handleRowAccordingToProp } from "@/utils/util";
+import { filterEnum, formatValue, handleProp, handleRowAccordingToProp } from "@/utils";
 import SearchForm from "@/components/SearchForm/index.vue";
 import Pagination from "./components/Pagination.vue";
 import ColSetting from "./components/ColSetting.vue";
@@ -109,8 +79,9 @@ import printJS from "print-js";
 
 interface ProTableProps extends Partial<Omit<TableProps<any>, "data">> {
 	columns: ColumnProps[]; // 列配置项
-	requestApi: (params: any) => Promise<any>; // 请求表格数据的api ==> 必传
-	requestAuto?: boolean;
+	requestApi: (params: any) => Promise<any> | any; // 请求表格数据的 api ==> 非必传
+	requestAuto?: boolean; // 是否自动执行请求 api ==> 非必传（默认为true）
+	requestError?: (params: any) => void; // 表格 api 请求错误监听 ==> 非必传
 	dataCallback?: (data: any) => any; // 返回数据的回调函数，可以对数据进行处理 ==> 非必传
 	title?: string; // 表格标题，目前只在打印的时候用到 ==> 非必传
 	pagination?: boolean; // 是否需要分页组件 ==> 非必传（默认为true）
@@ -143,8 +114,7 @@ const tableRef = ref<InstanceType<typeof ElTable>>();
 const { selectionChange, selectedList, selectedListIds, isSelected } = useSelection(props.rowKey);
 
 // 表格操作 Hooks
-const { tableData, pageable, searchParam, searchInitParam, getTableList, search, reset, handleSizeChange, handleCurrentChange } =
-	useTable(props.requestApi, props.initParam, props.pagination, props.dataCallback);
+const { tableData, pageable, searchParam, searchInitParam, getTableList, search, reset, handleSizeChange, handleCurrentChange } = useTable(props.requestApi, props.initParam, props.pagination, props.dataCallback, props.requestError);
 
 // 清空选中数据列表
 const clearSelection = () => tableRef.value!.clearSelection();
@@ -204,31 +174,20 @@ searchColumns.forEach((column, index) => {
 // 排序搜索表单项
 searchColumns.sort((a, b) => a.search!.order! - b.search!.order!);
 
-// 列设置 ==> 过滤掉不需要设置显隐的列
+// 列设置 ==> 过滤掉不需要设置的列
 const colRef = ref();
-const colSetting = tableColumns.value!.filter(
-	item => !["selection", "index", "expand"].includes(item.type!) && item.prop !== "operation"
-);
+const colSetting = tableColumns.value!.filter(item => !["selection", "index", "expand"].includes(item.type!) && item.prop !== "operation" && item.isShow);
 const openColSetting = () => colRef.value.openColSetting();
 
-// 🙅‍♀️ 不需要打印可以把以下方法删除（目前数据处理比较复杂 209-246）
+// 🙅‍♀️ 不需要打印可以把以下方法删除，打印功能目前存在很多 bug（目前数据处理比较复杂 209-246 行）
 // 处理打印数据（把后台返回的值根据 enum 做转换）
 const printData = computed(() => {
 	const printDataList = JSON.parse(JSON.stringify(selectedList.value.length ? selectedList.value : tableData.value));
 	// 找出需要转换数据的列（有 enum || 多级 prop && 需要根据 enum 格式化）
-	const needTransformCol = flatColumns.value!.filter(
-		item => (item.enum || (item.prop && item.prop.split(".").length > 1)) && item.isFilterEnum
-	);
+	const needTransformCol = flatColumns.value!.filter(item => (item.enum || (item.prop && item.prop.split(".").length > 1)) && item.isFilterEnum);
 	needTransformCol.forEach(colItem => {
 		printDataList.forEach((tableItem: { [key: string]: any }) => {
-			tableItem[handleProp(colItem.prop!)] =
-				colItem.prop!.split(".").length > 1 && !colItem.enum
-					? formatValue(handleRowAccordingToProp(tableItem, colItem.prop!))
-					: filterEnum(
-							handleRowAccordingToProp(tableItem, colItem.prop!),
-							enumMap.value.get(colItem.prop!),
-							colItem.fieldNames
-					  );
+			tableItem[handleProp(colItem.prop!)] = colItem.prop!.split(".").length > 1 && !colItem.enum ? formatValue(handleRowAccordingToProp(tableItem, colItem.prop!)) : filterEnum(handleRowAccordingToProp(tableItem, colItem.prop!), enumMap.value.get(colItem.prop!), colItem.fieldNames);
 			for (const key in tableItem) {
 				if (tableItem[key] === null) tableItem[key] = formatValue(tableItem[key]);
 			}
@@ -245,11 +204,7 @@ const handlePrint = () => {
 	printJS({
 		printable: printData.value,
 		header: props.title && header,
-		properties: flatColumns
-			.value!.filter(
-				item => !["selection", "index", "expand"].includes(item.type!) && item.isShow && item.prop !== "operation"
-			)
-			.map((item: ColumnProps) => ({ field: handleProp(item.prop!), displayName: item.label })),
+		properties: flatColumns.value!.filter(item => !["selection", "index", "expand"].includes(item.type!) && item.isShow && item.prop !== "operation").map((item: ColumnProps) => ({ field: handleProp(item.prop!), displayName: item.label })),
 		type: "json",
 		gridHeaderStyle,
 		gridStyle

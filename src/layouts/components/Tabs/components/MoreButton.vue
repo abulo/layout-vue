@@ -27,22 +27,21 @@
 </template>
 
 <script setup lang="ts">
-import { computed, inject, nextTick } from "vue";
-import { HOME_URL } from "@/config/config";
-import { GlobalStore } from "@/stores";
-import { TabsStore } from "@/stores/modules/tabs";
-import { KeepAliveStore } from "@/stores/modules/keepAlive";
+import { inject, nextTick } from "vue";
+import { HOME_URL } from "@/config";
+import { useTabsStore } from "@/stores/modules/tabs";
+import { useGlobalStore } from "@/stores/modules/global";
+import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 const router = useRouter();
-const tabStore = TabsStore();
-const globalStore = GlobalStore();
-const keepAliveStore = KeepAliveStore();
-const themeConfig = computed(() => globalStore.themeConfig);
+const tabStore = useTabsStore();
+const globalStore = useGlobalStore();
+const keepAliveStore = useKeepAliveStore();
 
-const refreshCurrentPage: Function = inject("refresh") as Function;
 // refresh current page
+const refreshCurrentPage: Function = inject("refresh") as Function;
 const refresh = () => {
 	setTimeout(() => {
 		keepAliveStore.removeKeepAliveName(route.name as string);
@@ -56,7 +55,7 @@ const refresh = () => {
 
 // maximize current page
 const maximize = () => {
-	globalStore.setThemeConfig({ ...themeConfig.value, maximize: true });
+	globalStore.setGlobalState("maximize", true);
 };
 
 // Close Current

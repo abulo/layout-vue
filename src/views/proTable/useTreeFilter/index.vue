@@ -1,21 +1,8 @@
 <template>
 	<div class="main-box">
-		<TreeFilter
-			label="name"
-			title="部门列表(单选)"
-			:requestApi="getUserDepartment"
-			:defaultValue="initParam.departmentId"
-			@change="changeTreeFilter"
-		/>
+		<TreeFilter label="name" title="部门列表(单选)" :request-api="getUserDepartment" :default-value="initParam.departmentId" @change="changeTreeFilter" />
 		<div class="table-box">
-			<ProTable
-				ref="proTable"
-				title="用户列表"
-				:columns="columns"
-				:requestApi="getUserList"
-				:initParam="initParam"
-				:searchCol="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3 }"
-			>
+			<ProTable ref="proTable" title="用户列表" :columns="columns" :request-api="getUserList" :init-param="initParam" :search-col="{ xs: 1, sm: 1, md: 2, lg: 3, xl: 3 }">
 				<!-- 表格 header 按钮 -->
 				<template #tableHeader>
 					<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')">新增用户</el-button>
@@ -49,18 +36,7 @@ import TreeFilter from "@/components/TreeFilter/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/proTable/components/UserDrawer.vue";
 import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from "@element-plus/icons-vue";
-import {
-	getUserList,
-	deleteUser,
-	editUser,
-	addUser,
-	resetUserPassWord,
-	exportUserInfo,
-	BatchAddUser,
-	getUserStatus,
-	getUserGender,
-	getUserDepartment
-} from "@/api/modules/user";
+import { getUserList, deleteUser, editUser, addUser, resetUserPassWord, exportUserInfo, BatchAddUser, getUserStatus, getUserGender, getUserDepartment } from "@/api/modules/user";
 
 const router = useRouter();
 
@@ -126,9 +102,7 @@ const resetPass = async (params: User.ResUserList) => {
 
 // 导出用户列表
 const downloadFile = async () => {
-	ElMessageBox.confirm("确认导出用户数据?", "温馨提示", { type: "warning" }).then(() =>
-		useDownload(exportUserInfo, "用户列表", proTable.value.searchParam)
-	);
+	ElMessageBox.confirm("确认导出用户数据?", "温馨提示", { type: "warning" }).then(() => useDownload(exportUserInfo, "用户列表", proTable.value.searchParam));
 };
 
 // 批量添加用户
@@ -145,11 +119,11 @@ const batchAdd = () => {
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref<InstanceType<typeof UserDrawer> | null>(null);
-const openDrawer = (title: string, rowData: Partial<User.ResUserList> = {}) => {
+const openDrawer = (title: string, row: Partial<User.ResUserList> = {}) => {
 	const params = {
 		title,
 		isView: title === "查看",
-		rowData: { ...rowData },
+		row: { ...row },
 		api: title === "新增" ? addUser : title === "编辑" ? editUser : undefined,
 		getTableList: proTable.value.getTableList
 	};
