@@ -1,6 +1,6 @@
 <template>
 	<div class="table-box">
-		<ProTable ref="proTable" title="用户列表" :columns="columns" :request-api="getTableList" :init-param="initParam" :data-callback="dataCallback">
+		<ProTable ref="proTable" title="用户列表" :columns="columns" :request-api="getTableList" :init-param="initParam" :data-callback="dataCallback" :searchCol="12">
 			<!-- 表格 header 按钮 -->
 			<template #tableHeader="scope">
 				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-auth="'add'">新增用户</el-button>

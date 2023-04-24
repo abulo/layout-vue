@@ -24,5 +24,3 @@ stats.html
 *.njsproj
 *.sln
 *.sw?
-auto-imports.d.ts
-components.d.ts
