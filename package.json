@@ -1,25 +1,40 @@
 {
-	"name": "layout-vue",
-	"private": true,
-	"version": "0.0.0",
-	"type": "module",
-	"scripts": {
-		"dev": "vite",
-		"serve": "vite",
-		"build:dev": "vue-tsc && vite build --mode development",
-		"build:test": "vue-tsc && vite build --mode test",
-		"build:pro": "vue-tsc && vite build --mode production",
-		"type:check": "vue-tsc --noEmit --skipLibCheck",
-		"preview": "pnpm run build:dev && vite preview",
-		"lint:eslint": "eslint --ext .js,.vue,.ts --ignore-path .gitignore --fix src",
-		"lint:prettier": "prettier --write \"./**/*.{html,vue,ts,js,cjs,json,md,css,scss,less}\"",
-		"lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
-		"lint:lint-staged": "lint-staged",
-		"prepare": "husky install",
-		"release": "standard-version",
-		"commit": "git add -A && czg && git push",
-		"lint": "pnpm lint:prettier && pnpm lint:eslint"
-	},
+  "name": "geeker-admin",
+  "private": true,
+  "version": "1.2.0",
+  "type": "module",
+  "description": "geeker-admin open source management system",
+  "author": {
+    "name": "Geeker",
+    "email": "848130454@qq.com",
+    "url": "https://github.com/HalseySpicy"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/HalseySpicy/Geeker-Admin",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:HalseySpicy/Geeker-Admin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/HalseySpicy/Geeker-Admin/issues"
+  },
+  "scripts": {
+    "dev": "vite",
+    "serve": "vite",
+    "build:dev": "vue-tsc && vite build --mode development",
+    "build:test": "vue-tsc && vite build --mode test",
+    "build:pro": "vue-tsc && vite build --mode production",
+    "preview": "npm run build:dev && vite preview",
+    "release": "standard-version",
+    "commit": "git add -A && czg && git push",
+    "lint:eslint": "eslint --cache --max-warnings 0  \"{src,build}/**/*.{vue,js,ts,tsx}\" --fix",
+    "lint:prettier": "prettier --write \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
+    "lint:stylelint": "stylelint --cache --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
+    "lint:lint-staged": "lint-staged",
+    "prepare": "husky install",
+    "type:check": "vue-tsc --noEmit --skipLibCheck",
+    "lint": "pnpm lint:lint-staged &&  pnpm lint:prettier && pnpm lint:stylelint && pnpm prepare && pnpm type:check && pnpm lint:eslint"
+  },
 	"dependencies": {
 		"@element-plus/icons-vue": "^2.1.0",
 		"@vueuse/core": "^10.1.0",
@@ -88,7 +103,7 @@
 		"vue-tsc": "^1.4.4"
 	},
 	"engines": {
-		"node": ">=16.0.0"
+    "node": ">=18.0.0"
 	},
 	"browserslist": {
 		"production": [

@@ -1,7 +1,7 @@
 <template>
-	<el-icon class="collapse-icon" @click="changeCollapse">
-		<component :is="globalStore.isCollapse ? 'expand' : 'fold'"></component>
-	</el-icon>
+  <el-icon class="collapse-icon" @click="changeCollapse">
+    <component :is="globalStore.isCollapse ? 'expand' : 'fold'"></component>
+  </el-icon>
 </template>
 
 <script setup lang="ts">
@@ -13,8 +13,8 @@ const changeCollapse = () => globalStore.setGlobalState("isCollapse", !globalSto
 
 <style scoped lang="scss">
 .collapse-icon {
-	margin-right: 20px;
-	font-size: 22px;
-	cursor: pointer;
+  margin-right: 20px;
+  font-size: 22px;
+  cursor: pointer;
 }
 </style>

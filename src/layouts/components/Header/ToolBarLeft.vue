@@ -1,8 +1,8 @@
 <template>
-	<div class="tool-bar-lf">
-		<CollapseIcon id="collapseIcon" />
-		<Breadcrumb id="breadcrumb" v-if="globalStore.breadcrumb" />
-	</div>
+  <div class="tool-bar-lf">
+    <CollapseIcon id="collapseIcon" />
+    <Breadcrumb id="breadcrumb" v-if="globalStore.breadcrumb" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -14,10 +14,10 @@ const globalStore = useGlobalStore();
 
 <style scoped lang="scss">
 .tool-bar-lf {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	overflow: hidden;
-	white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>

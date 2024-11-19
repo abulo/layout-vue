@@ -1,27 +1,32 @@
 <!-- 纵向布局 -->
 <template>
-	<el-container class="layout">
-		<el-aside>
-			<div class="aside-box" :style="{ width: isCollapse ? '65px' : '210px' }">
-				<div class="logo flx-center">
-					<img class="logo-img" src="@/assets/images/logo.svg" alt="logo" />
-					<span class="logo-text" v-show="!isCollapse">Geeker Admin</span>
-				</div>
-				<el-scrollbar>
-					<el-menu :default-active="activeMenu" :collapse="isCollapse" :router="false" :unique-opened="true" :collapse-transition="false">
-						<SubMenu :menuList="menuList" />
-					</el-menu>
-				</el-scrollbar>
-			</div>
-		</el-aside>
-		<el-container>
-			<el-header>
-				<ToolBarLeft />
-				<ToolBarRight />
-			</el-header>
-			<Main />
-		</el-container>
-	</el-container>
+  <el-container class="layout">
+    <el-aside>
+      <div class="aside-box" :style="{ width: isCollapse ? '65px' : '210px' }">
+        <div class="logo flx-center">
+          <img class="logo-img" src="@/assets/images/logo.svg" alt="logo" />
+          <span class="logo-text" v-show="!isCollapse">Geeker Admin</span>
+        </div>
+        <el-scrollbar>
+          <el-menu
+            :default-active="activeMenu"
+            :collapse="isCollapse"
+            :router="false"
+            :unique-opened="true"
+            :collapse-transition="false">
+            <SubMenu :menuList="menuList" />
+          </el-menu>
+        </el-scrollbar>
+      </div>
+    </el-aside>
+    <el-container>
+      <el-header>
+        <ToolBarLeft />
+        <ToolBarRight />
+      </el-header>
+      <Main />
+    </el-container>
+  </el-container>
 </template>
 
 <script setup lang="ts" name="layoutVertical">

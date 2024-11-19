@@ -1,8 +1,8 @@
 <template>
-	<div class="card content-box">
-		<span class="text"> 我是 Tab 详情页 🍓🍇🍈🍉</span>
-		<span class="text">params:{{ route.params }}</span>
-	</div>
+  <div class="card content-box">
+    <span class="text"> 我是 Tab 详情页 🍓🍇🍈🍉</span>
+    <span class="text">params:{{ route.params }}</span>
+  </div>
 </template>
 
 <script setup lang="ts" name="tabsDetail">
