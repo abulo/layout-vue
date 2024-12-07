@@ -55,5 +55,5 @@ const handleClickMenu = (subItem: Menu.MenuOptions) => {
 </script>
 
 <style scoped lang="scss">
-@import "./index.scss";
+@import "./index";
 </style>

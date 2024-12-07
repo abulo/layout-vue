@@ -107,5 +107,5 @@ const tabRemove = (fullPath: TabPaneName) => {
 </script>
 
 <style scoped lang="scss">
-@import "./index.scss";
+@import "./index";
 </style>
