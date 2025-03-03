@@ -1,44 +1,31 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "useDefineForClassFields": true,
     "module": "ESNext",
-    "moduleResolution": "Node",
-    "types": ["vite/client", "element-plus/global"],
-
-    /* Strict Type-Checking Options */
-    "strict": true /* Enable all strict type-checking options. */,
-    "noImplicitAny": false /* Raise error on expressions and declarations with an implied 'any' type. */,
-    // "strictNullChecks": true,              /* Enable strict null checks. */
-    // "strictFunctionTypes": true,           /* Enable strict checking of function types. */
-    // "strictBindCallApply": true,           /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
-    // "strictPropertyInitialization": true,  /* Enable strict checking of property initialization in classes. */
-    // "noImplicitThis": true,                /* Raise error on 'this' expressions with an implied 'any' type. */
-    // "alwaysStrict": true,                  /* Parse in strict mode and emit "use strict" for each source file. */
-    "ignoreDeprecations": "5.0",
-    // "suppressImplicitAnyIndexErrors": true,
+    "moduleResolution": "bundler",
+    "strict": false,
+    "strictFunctionTypes": false,
+    "noImplicitThis": false,
     "jsx": "preserve",
-    "resolveJsonModule": true,
-    "isolatedModules": false,
-    "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
+    "importHelpers": true,
+    "experimentalDecorators": true,
     "skipLibCheck": true,
-    "noEmit": true,
-    "baseUrl": "./",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "allowJs": false,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": false,
+    "lib": ["ESNext", "DOM"],
     "paths": {
-      "@": ["src"],
-      "@/*": ["src/*"]
-    }
+      "@/*": ["src/*"],
+      "@build/*": ["build/*"]
+    },
+    "types": ["node", "vite/client", "element-plus/global", "@pureadmin/table/volar", "@pureadmin/descriptions/volar"]
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "build/**/*.ts",
-    "build/**/*.d.ts",
-    "vite.config.ts",
-    "src/plugin/vxeTable.ts"
-  ],
-  "exclude": ["node_modules", "dist", "**/*.js"]
+  "include": ["mock/*.ts", "src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "types/*.d.ts", "vite.config.ts"],
+  "exclude": ["dist", "**/*.js", "node_modules"]
 }

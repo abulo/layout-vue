@@ -1,72 +1,58 @@
-import { resolve } from "path";
-import { PluginOption } from "vite";
-import { visualizer } from "rollup-plugin-visualizer";
-import { createHtmlPlugin } from "vite-plugin-html";
-import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
+import { cdn } from "./cdn";
 import vue from "@vitejs/plugin-vue";
+import { pathResolve } from "./utils";
+import { viteBuildInfo } from "./info";
+import svgLoader from "vite-svg-loader";
+import { PluginOption } from "vite";
 import vueJsx from "@vitejs/plugin-vue-jsx";
-import eslintPlugin from "vite-plugin-eslint";
-import viteCompression from "vite-plugin-compression";
-import vueSetupExtend from "unplugin-vue-setup-extend-plus/vite";
+import { configCompressPlugin } from "./compress";
+import removeNoMatch from "vite-plugin-router-warn";
+import { visualizer } from "rollup-plugin-visualizer";
+import removeConsole from "vite-plugin-remove-console";
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
+import { codeInspectorPlugin } from "code-inspector-plugin";
+import { vitePluginFakeServer } from "vite-plugin-fake-server";
 
-/**
- * 创建 vite 插件
- * @param viteEnv
- */
-export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOption[])[] => {
-	return [
-		vue(),
-		// vue 可以使用 jsx/tsx 语法
-		vueJsx(),
-		// esLint 报错信息显示在浏览器界面上
-		eslintPlugin(),
-		// name 可以写在 script 标签上
-		vueSetupExtend({}),
-		// 创建打包压缩配置
-		createCompression(viteEnv),
-		// 注入变量到 html 文件
-		createHtmlPlugin({
-			inject: {
-				data: { title: viteEnv.VITE_GLOB_APP_TITLE }
-			}
-		}),
-		// 使用 svg 图标
-		createSvgIconsPlugin({
-			iconDirs: [resolve(process.cwd(), "src/assets/icons")],
-			symbolId: "icon-[dir]-[name]"
-		}),
-		// 是否生成包预览，分析依赖包大小做优化处理
-		viteEnv.VITE_REPORT && (visualizer({ filename: "stats.html", gzipSize: true, brotliSize: true }) as PluginOption)
-	];
-};
-
-/**
- * 根据 compress 配置，生成不同的压缩规则
- * @param viteEnv
- */
-const createCompression = (viteEnv: ViteEnv): PluginOption | PluginOption[] => {
-	const { VITE_BUILD_COMPRESS = "none", VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE } = viteEnv;
-	const compressList = VITE_BUILD_COMPRESS.split(",");
-	const plugins: PluginOption[] = [];
-
-	if (compressList.includes("gzip")) {
-		plugins.push(
-			viteCompression({
-				ext: ".gz",
-				algorithm: "gzip",
-				deleteOriginFile: VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE
-			})
-		);
-	}
-	if (compressList.includes("brotli")) {
-		plugins.push(
-			viteCompression({
-				ext: ".br",
-				algorithm: "brotliCompress",
-				deleteOriginFile: VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE
-			})
-		);
-	}
-
-	return plugins;
-};
+export function getPluginsList(VITE_CDN: boolean, VITE_COMPRESSION: ViteCompression): PluginOption[] {
+  const lifecycle = process.env.npm_lifecycle_event;
+  return [
+    vue(),
+    // jsx、tsx语法支持
+    vueJsx(),
+    VueI18nPlugin({
+      include: [pathResolve("../locales/**")]
+    }),
+    /**
+     * 在页面上按住组合键时，鼠标在页面移动即会在 DOM 上出现遮罩层并显示相关信息，点击一下将自动打开 IDE 并将光标定位到元素对应的代码位置
+     * Mac 默认组合键 Option + Shift
+     * Windows 默认组合键 Alt + Shift
+     * 更多用法看 https://inspector.fe-dev.cn/guide/start.html
+     */
+    codeInspectorPlugin({
+      bundler: "vite",
+      hideConsole: true
+    }),
+    viteBuildInfo(),
+    /**
+     * 开发环境下移除非必要的vue-router动态路由警告No match found for location with path
+     * 非必要具体看 https://github.com/vuejs/router/issues/521 和 https://github.com/vuejs/router/issues/359
+     * vite-plugin-router-warn只在开发环境下启用，只处理vue-router文件并且只在服务启动或重启时运行一次，性能消耗可忽略不计
+     */
+    removeNoMatch(),
+    // mock支持
+    vitePluginFakeServer({
+      logger: false,
+      include: "mock",
+      infixName: false,
+      enableProd: true
+    }),
+    // svg组件化支持
+    svgLoader(),
+    VITE_CDN ? cdn : null,
+    configCompressPlugin(VITE_COMPRESSION),
+    // 线上环境删除console
+    removeConsole({ external: ["src/assets/iconfont/iconfont.js"] }),
+    // 打包分析
+    lifecycle === "report" ? visualizer({ open: true, brotliSize: true, filename: "report.html" }) : (null as any)
+  ];
+}

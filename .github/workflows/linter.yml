@@ -1,0 +1,34 @@
+name: Lint Code
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Lint Code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v3
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 9
+          run_install: false
+
+      - name: Start Lint Code
+        run: |
+          pnpm install --no-frozen-lockfile
+          pnpm lint
+          pnpm typecheck

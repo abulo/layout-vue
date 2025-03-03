@@ -1,19 +1,55 @@
-// ? 全局默认配置项
+import axios from "axios";
+import { App } from "vue";
 
-// 首页地址（默认）
-export const HOME_URL: string = "/home/index";
+let config: object = {};
+const { VITE_PUBLIC_PATH } = import.meta.env;
 
-// 登录页地址（默认）
-export const LOGIN_URL: string = "/login";
+const setConfig = (cfg?: unknown) => {
+  config = Object.assign(config, cfg);
+};
 
-// 默认主题颜色
-export const DEFAULT_PRIMARY: string = "#009688";
+const getConfig = (key?: string): PlatformConfigs => {
+  if (typeof key === "string") {
+    const arr = key.split(".");
+    if (arr && arr.length) {
+      let data = config;
+      arr.forEach(v => {
+        if (data && typeof data[v] !== "undefined") {
+          data = data[v];
+        } else {
+          data = null;
+        }
+      });
+      return data;
+    }
+  }
+  return config;
+};
 
-// 路由白名单地址（必须是本地存在的路由 staticRouter.ts 中）
-export const ROUTER_WHITE_LIST: string[] = ["/500"];
+/** 获取项目动态全局配置 */
+export const getPlatformConfig = async (app: App): Promise<undefined> => {
+  app.config.globalProperties.$config = getConfig();
+  return axios({
+    method: "get",
+    url: `${VITE_PUBLIC_PATH}platform-config.json`
+  })
+    .then(({ data: config }) => {
+      let $config = app.config.globalProperties.$config;
+      // 自动注入系统配置
+      if (app && $config && typeof config === "object") {
+        $config = Object.assign($config, config);
+        app.config.globalProperties.$config = $config;
+        // 设置全局配置
+        setConfig($config);
+      }
+      return $config;
+    })
+    .catch(() => {
+      throw "请在public文件夹下添加platform-config.json配置文件";
+    });
+};
 
-// 高德地图 key
-export const AMAP_MAP_KEY: string = "";
+/** 本地响应式存储的命名空间 */
+const responsiveStorageNameSpace = () => getConfig().ResponsiveStorageNameSpace;
 
-// 百度地图 key
-export const BAIDU_MAP_KEY: string = "";
+export { getConfig, setConfig, responsiveStorageNameSpace };

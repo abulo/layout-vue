@@ -1,85 +1,64 @@
-import { defineConfig, loadEnv, ConfigEnv, UserConfig } from "vite";
-import { resolve } from "path";
-import { wrapperEnv } from "./build/getEnv";
+import { getPluginsList } from "./build/plugins";
+import { include, exclude } from "./build/optimize";
+import { UserConfigExport, ConfigEnv, loadEnv } from "vite";
+import { root, alias, wrapperEnv, pathResolve, __APP_INFO__ } from "./build/utils";
 import { createProxy } from "./build/proxy";
-import { createVitePlugins } from "./build/plugins";
-import pkg from "./package.json";
-import dayjs from "dayjs";
 
-const { dependencies, devDependencies, name, version } = pkg;
-const __APP_INFO__ = {
-  pkg: { dependencies, devDependencies, name, version },
-  lastBuildTime: dayjs().format("YYYY-MM-DD HH:mm:ss")
-};
-
-// @see: https://vitejs.dev/config/
-export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
-  const root = process.cwd();
-  const env = loadEnv(mode, root);
-  const viteEnv = wrapperEnv(env);
-
+export default ({ mode }: ConfigEnv): UserConfigExport => {
+  const { VITE_CDN, VITE_PORT, VITE_COMPRESSION, VITE_PUBLIC_PATH, VITE_PROXY, VITE_OPEN, VITE_DROP_CONSOLE } = wrapperEnv(loadEnv(mode, root));
   return {
-    base: viteEnv.VITE_PUBLIC_PATH,
+    base: VITE_PUBLIC_PATH,
     root,
     resolve: {
-      alias: {
-        "@": resolve(__dirname, "./src"),
-        "vue-i18n": "vue-i18n/dist/vue-i18n.cjs.js"
+      alias
+    },
+    // 服务端渲染
+    server: {
+      // 端口号
+      port: VITE_PORT,
+      host: "0.0.0.0",
+      cors: true,
+      open: VITE_OPEN,
+      // 本地跨域代理 https://cn.vitejs.dev/config/server-options.html#server-proxy
+      proxy: createProxy(VITE_PROXY),
+      // 预热文件以提前转换和缓存结果，降低启动期间的初始页面加载时长并防止转换瀑布
+      warmup: {
+        clientFiles: ["./index.html", "./src/{views,components}/*"]
+      }
+    },
+    plugins: getPluginsList(VITE_CDN, VITE_COMPRESSION),
+    // https://cn.vitejs.dev/config/dep-optimization-options.html#dep-optimization-options
+    optimizeDeps: {
+      include,
+      exclude
+    },
+    build: {
+      // https://cn.vitejs.dev/guide/build.html#browser-compatibility
+      target: "es2015",
+      sourcemap: false,
+      terserOptions: {
+        compress: {
+          drop_console: VITE_DROP_CONSOLE,
+          drop_debugger: VITE_DROP_CONSOLE
+        }
+      },
+      // 消除打包大小超过500kb警告
+      chunkSizeWarningLimit: 4000,
+      rollupOptions: {
+        input: {
+          index: pathResolve("./index.html", import.meta.url)
+        },
+        // 静态资源分类打包
+        output: {
+          chunkFileNames: "static/js/[name]-[hash].js",
+          entryFileNames: "static/js/[name]-[hash].js",
+          assetFileNames: "static/[ext]/[name]-[hash].[ext]"
+        }
       }
     },
     define: {
+      __INTLIFY_PROD_DEVTOOLS__: false,
       __APP_INFO__: JSON.stringify(__APP_INFO__)
-    },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: "modern-compiler",
-          additionalData: `@use "@/styles/var.scss";`
-        }
-      }
-    },
-    server: {
-      host: "0.0.0.0",
-      port: viteEnv.VITE_PORT,
-      open: viteEnv.VITE_OPEN,
-      cors: true,
-      // Load proxy configuration from .env.development
-      proxy: createProxy(viteEnv.VITE_PROXY)
-    },
-    plugins: createVitePlugins(viteEnv),
-    esbuild: {
-      pure: viteEnv.VITE_DROP_CONSOLE ? ["console.log", "debugger"] : []
-    },
-    build: {
-      outDir: "dist",
-      minify: "esbuild",
-      // esbuild 打包更快，但是不能去除 console.log，terser打包慢，但能去除 console.log
-      // minify: "terser",
-      // terserOptions: {
-      // 	compress: {
-      // 		drop_console: viteEnv.VITE_DROP_CONSOLE,
-      // 		drop_debugger: true
-      // 	}
-      // },
-      sourcemap: false,
-      // 禁用 gzip 压缩大小报告，可略微减少打包时间
-      reportCompressedSize: false,
-      // 规定触发警告的 chunk 大小
-      chunkSizeWarningLimit: 2000,
-      rollupOptions: {
-        output: {
-          manualChunks(id) {
-            if (id.includes(".pnpm")) {
-              // 替换字符串
-              return id.toString().split(".pnpm/")[1].split("/")[0].toString();
-            }
-          },
-          // Static resource classification and packaging
-          chunkFileNames: "assets/js/[name]-[hash].js",
-          entryFileNames: "assets/js/[name]-[hash].js",
-          assetFileNames: "assets/[ext]/[name]-[hash].[ext]"
-        }
-      }
     }
   };
-});
+};
