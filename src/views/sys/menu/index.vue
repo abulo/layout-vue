@@ -1,9 +1,11 @@
 <script setup lang="ts">
 defineOptions({
-  name: "Welcome"
+  name: ""
 });
 </script>
 
 <template>
-  <h1>Pure-Admin-Thin（非国际化版本）</h1>
+  <div>test</div>
 </template>
+
+<style lang="scss" scoped></style>

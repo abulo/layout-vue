@@ -7,7 +7,8 @@
   "editor.tabSize": 2,
   "editor.formatOnPaste": true,
   "editor.guides.bracketPairs": "active",
-  "files.autoSave": "afterDelay",
+  "files.autoSave": "onFocusChange",
+  "files.autoSaveDelay": 5000,
   "git.confirmSync": false,
   "workbench.startupEditor": "newUntitledFile",
   "editor.suggestSelection": "first",
@@ -31,26 +32,11 @@
   "i18n-ally.keystyle": "nested",
   "i18n-ally.sortKeys": true,
   "i18n-ally.namespace": true,
-  "i18n-ally.enabledParsers": [
-    "yaml",
-    "js"
-  ],
+  "i18n-ally.enabledParsers": ["yaml", "js"],
   "i18n-ally.sourceLanguage": "en",
   "i18n-ally.displayLanguage": "zh-CN",
-  "i18n-ally.enabledFrameworks": [
-    "vue"
-  ],
-  "iconify.excludes": [
-    "el"
-  ],
-  "vscodeCustomCodeColor.highlightValue": [
-    "v-loading",
-    "v-auth",
-    "v-copy",
-    "v-longpress",
-    "v-optimize",
-    "v-perms",
-    "v-ripple"
-  ],
-  "vscodeCustomCodeColor.highlightValueColor": "#b392f0",
+  "i18n-ally.enabledFrameworks": ["vue"],
+  "iconify.excludes": ["el"],
+  "vscodeCustomCodeColor.highlightValue": ["v-loading", "v-auth", "v-copy", "v-longpress", "v-optimize", "v-perms", "v-ripple"],
+  "vscodeCustomCodeColor.highlightValueColor": "#b392f0"
 }

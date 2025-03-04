@@ -1,18 +1,16 @@
 <script setup lang="ts">
-import { useI18n } from "vue-i18n";
 import { ref, computed } from "vue";
 import { noticesData } from "./data";
 import NoticeList from "./components/NoticeList.vue";
 import BellIcon from "@iconify-icons/ep/bell";
 
-const { t } = useI18n();
 const noticesNum = ref(0);
 const notices = ref(noticesData);
 const activeKey = ref(noticesData[0]?.key);
 
 notices.value.map(v => (noticesNum.value += v.list.length));
 
-const getLabel = computed(() => item => t(item.name) + (item.list.length > 0 ? `(${item.list.length})` : ""));
+const getLabel = computed(() => item => item.name + (item.list.length > 0 ? `(${item.list.length})` : ""));
 </script>
 
 <template>
@@ -27,7 +25,7 @@ const getLabel = computed(() => item => t(item.name) + (item.list.length > 0 ? `
     <template #dropdown>
       <el-dropdown-menu>
         <el-tabs v-model="activeKey" :stretch="true" class="dropdown-tabs" :style="{ width: notices.length === 0 ? '200px' : '330px' }">
-          <el-empty v-if="notices.length === 0" :description="t('status.pureNoMessage')" :image-size="60" />
+          <el-empty v-if="notices.length === 0" description="暂无消息" :image-size="60" />
           <span v-else>
             <template v-for="item in notices" :key="item.key">
               <el-tab-pane :label="getLabel(item)" :name="`${item.key}`">

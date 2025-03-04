@@ -4,7 +4,6 @@ import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
-import { ResultData } from "@/api/interface";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -80,7 +79,7 @@ class PureHttp {
                     useUserStoreHook()
                       .handRefreshToken({ refreshToken: data.refreshToken })
                       .then(res => {
-                        const token = res.accessToken;
+                        const token = res.data.accessToken;
                         config.headers["Authorization"] = formatToken(token);
                         PureHttp.requests.forEach(cb => cb(token));
                         PureHttp.requests = [];
@@ -136,7 +135,7 @@ class PureHttp {
   }
 
   /** 通用请求工具函数 */
-  public request<T>(method: RequestMethods, url: string, param?: AxiosRequestConfig, axiosConfig?: PureHttpRequestConfig): Promise<ResultData<T>> {
+  public request<T>(method: RequestMethods, url: string, param?: AxiosRequestConfig, axiosConfig?: PureHttpRequestConfig): Promise<T> {
     const config = {
       method,
       url,
@@ -157,15 +156,15 @@ class PureHttp {
     });
   }
 
-  // /** 单独抽离的`post`工具函数 */
-  // public post<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: PureHttpRequestConfig): Promise<T> {
-  //   return this.request<ResultData<T>>("post", url, params, config);
-  // }
+  /** 单独抽离的`post`工具函数 */
+  public post<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: PureHttpRequestConfig): Promise<T> {
+    return this.request<T>("post", url, params, config);
+  }
 
-  // /** 单独抽离的`get`工具函数 */
-  // public get<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: PureHttpRequestConfig): Promise<T> {
-  //   return this.request<ResultData<T>>("get", url, params, config);
-  // }
+  /** 单独抽离的`get`工具函数 */
+  public get<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: PureHttpRequestConfig): Promise<T> {
+    return this.request<T>("get", url, params, config);
+  }
 }
 
 export const http = new PureHttp();

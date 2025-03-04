@@ -33,7 +33,6 @@ const isTextEllipsis = (el: HTMLElement) => {
 };
 
 const getTippyProps = () => ({
-  // @ts-ignore
   content: h($slots.content || $slots.default),
   ...props.tippyProps
 });

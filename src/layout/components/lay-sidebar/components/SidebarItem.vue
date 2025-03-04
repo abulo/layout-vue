@@ -4,7 +4,6 @@ import { posix } from "path-browserify";
 import { menuType } from "@/layout/types";
 import { ReText } from "@/components/ReText";
 import { useNav } from "@/layout/hooks/useNav";
-import { transformI18n } from "@/plugins/i18n";
 import SidebarLinkItem from "./SidebarLinkItem.vue";
 import SidebarExtraIcon from "./SidebarExtraIcon.vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -102,7 +101,7 @@ function resolvePath(routePath) {
         v-if="(!item?.meta.icon && isCollapse && layout === 'vertical' && item?.pathList?.length === 1) || (!onlyOneChild.meta.icon && isCollapse && layout === 'mix' && item?.pathList?.length === 2)"
         truncated
         class="!w-full !pl-4 !text-inherit">
-        {{ transformI18n(onlyOneChild.meta.title) }}
+        {{ onlyOneChild.meta.title }}
       </el-text>
 
       <template #title>
@@ -113,7 +112,7 @@ function resolvePath(routePath) {
               theme: tooltipEffect
             }"
             class="!w-full !text-inherit">
-            {{ transformI18n(onlyOneChild.meta.title) }}
+            {{ onlyOneChild.meta.title }}
           </ReText>
           <SidebarExtraIcon :extraIcon="onlyOneChild.meta.extraIcon" />
         </div>
@@ -136,7 +135,7 @@ function resolvePath(routePath) {
           '!text-inherit': true,
           '!pl-4': layout !== 'horizontal' && isCollapse && !toRaw(item.meta.icon) && item.parentId === null
         }">
-        {{ transformI18n(item.meta.title) }}
+        {{ item.meta.title }}
       </ReText>
       <SidebarExtraIcon v-if="!isCollapse" :extraIcon="item.meta.extraIcon" />
     </template>

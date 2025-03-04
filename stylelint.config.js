@@ -19,6 +19,7 @@ export default {
     "prettier/prettier": true,
     "selector-class-pattern": null,
     "no-descending-specificity": null,
+    "no-empty-source": null,
     "scss/dollar-variable-pattern": null,
     "selector-pseudo-class-no-unknown": [
       true,

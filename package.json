@@ -34,7 +34,7 @@
     "vite",
     "esm"
   ],
-  "homepage": "https://github.com/pure-admin/pure-admin-thin/tree/i18n",
+  "homepage": "https://github.com/pure-admin/pure-admin-thin",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pure-admin/pure-admin-thin.git"
@@ -70,7 +70,6 @@
     "responsive-storage": "^2.2.0",
     "sortablejs": "^1.15.6",
     "vue": "^3.5.13",
-    "vue-i18n": "^11.1.1",
     "vue-router": "^4.5.0",
     "vue-tippy": "^6.6.0",
     "vue-types": "^6.0.0"
@@ -84,7 +83,6 @@
     "@iconify-icons/ep": "^1.2.12",
     "@iconify-icons/ri": "^1.2.10",
     "@iconify/vue": "4.3.0",
-    "@intlify/unplugin-vue-i18n": "^6.0.3",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.13.5",
     "@types/nprogress": "^0.2.3",
