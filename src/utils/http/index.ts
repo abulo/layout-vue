@@ -4,6 +4,10 @@ import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
+import { ResultData } from "@/api/interface";
+import { ElMessage } from "element-plus";
+import { ResultEnum } from "@/api/enums";
+import { checkStatus } from "@/api/helper";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -79,7 +83,7 @@ class PureHttp {
                     useUserStoreHook()
                       .handRefreshToken({ refreshToken: data.refreshToken })
                       .then(res => {
-                        const token = res.data.accessToken;
+                        const token = res.accessToken;
                         config.headers["Authorization"] = formatToken(token);
                         PureHttp.requests.forEach(cb => cb(token));
                         PureHttp.requests = [];
@@ -110,6 +114,10 @@ class PureHttp {
     instance.interceptors.response.use(
       (response: PureHttpResponse) => {
         const $config = response.config;
+        // 全局错误信息拦截（防止下载文件的时候返回数据流，没有 code 直接报错）
+        if (response.data.code && response.data.code !== ResultEnum.SUCCESS) {
+          ElMessage.error(response.data.msg);
+        }
         // 关闭进度条动画
         NProgress.done();
         // 优先判断post/get等方法是否传入回调，否则执行初始化设置等回调
@@ -125,6 +133,9 @@ class PureHttp {
       },
       (error: PureHttpError) => {
         const $error = error;
+        if ($error.message.indexOf("timeout") !== -1) ElMessage.error("请求超时！请您稍后重试");
+        if ($error.message.indexOf("Network Error") !== -1) ElMessage.error("网络错误！请您稍后重试");
+        if ($error.response) checkStatus($error.response.status);
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画
         NProgress.done();
@@ -135,7 +146,7 @@ class PureHttp {
   }
 
   /** 通用请求工具函数 */
-  public request<T>(method: RequestMethods, url: string, param?: AxiosRequestConfig, axiosConfig?: PureHttpRequestConfig): Promise<T> {
+  public request<T>(method: RequestMethods, url: string, param?: AxiosRequestConfig, axiosConfig?: PureHttpRequestConfig): Promise<ResultData<T>> {
     const config = {
       method,
       url,
@@ -156,15 +167,15 @@ class PureHttp {
     });
   }
 
-  /** 单独抽离的`post`工具函数 */
-  public post<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: PureHttpRequestConfig): Promise<T> {
-    return this.request<T>("post", url, params, config);
-  }
+  // /** 单独抽离的`post`工具函数 */
+  // public post<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: PureHttpRequestConfig): Promise<T> {
+  //   return this.request<ResultData<T>>("post", url, params, config);
+  // }
 
-  /** 单独抽离的`get`工具函数 */
-  public get<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: PureHttpRequestConfig): Promise<T> {
-    return this.request<T>("get", url, params, config);
-  }
+  // /** 单独抽离的`get`工具函数 */
+  // public get<T, P>(url: string, params?: AxiosRequestConfig<P>, config?: PureHttpRequestConfig): Promise<T> {
+  //   return this.request<ResultData<T>>("get", url, params, config);
+  // }
 }
 
 export const http = new PureHttp();
