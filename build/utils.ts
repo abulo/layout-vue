@@ -53,7 +53,10 @@ const wrapperEnv = (envConf: Recordable): ViteEnv => {
     VITE_COMPRESSION: "none",
     VITE_PROXY: [],
     VITE_OPEN: false,
-    VITE_DROP_CONSOLE: false
+    VITE_DROP_CONSOLE: false,
+    VITE_ENCRYPT: false,
+    VITE_ENCRYPT_SECRET_KEY: "",
+    VITE_ENCRYPT_IV: ""
   };
 
   for (const envName of Object.keys(envConf)) {
