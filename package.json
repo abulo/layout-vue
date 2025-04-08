@@ -20,7 +20,8 @@
     "lint": "pnpm lint:eslint && pnpm lint:prettier && pnpm lint:stylelint",
     "prepare": "husky",
     "preinstall": "npx only-allow pnpm",
-    "commit": "git add -A && czg && git push"
+    "commit": "git add -A && czg && git push",
+    "check": "pnpm lint && pnpm typecheck"
   },
   "keywords": [
     "pure-admin-thin",

@@ -13,7 +13,7 @@
     "csstools.postcss",
     "mikestead.dotenv",
     "eamodio.gitlens",
-    "antfu.iconify",
+    // "antfu.iconify",
     "Vue.volar"
   ]
 }
