@@ -1,7 +1,7 @@
 // 全局路由类型声明
 
-import type { RouteComponent, RouteLocationNormalized } from "vue-router";
-import type { FunctionalComponent } from "vue";
+import { RouteComponent, RouteLocationNormalized } from "vue-router";
+import { FunctionalComponent } from "vue";
 
 declare global {
   interface ToRouteType extends RouteLocationNormalized {
@@ -15,9 +15,9 @@ declare global {
     /** 菜单名称（兼容国际化、非国际化，如何用国际化的写法就必须在根目录的`locales`文件夹下对应添加） `必填` */
     title: string;
     /** 菜单图标 `可选` */
-    icon?: string | FunctionalComponent | IconifyIcon;
+    icon?: string | FunctionalComponent;
     /** 菜单名称右侧的额外图标 */
-    extraIcon?: string | FunctionalComponent | IconifyIcon;
+    extraIcon?: string | FunctionalComponent;
     /** 是否在菜单中显示（默认`true`）`可选` */
     showLink?: boolean;
     /** 是否显示父级菜单 `可选` */
@@ -91,7 +91,7 @@ declare global {
       /** 菜单名称（兼容国际化、非国际化，如何用国际化的写法就必须在根目录的`locales`文件夹下对应添加）`必填` */
       title: string;
       /** 菜单图标 `可选` */
-      icon?: string | FunctionalComponent | IconifyIcon;
+      icon?: string | FunctionalComponent;
       /** 是否在菜单中显示（默认`true`）`可选` */
       showLink?: boolean;
       /** 菜单升序排序，值越高排的越后（只针对顶级路由）`可选` */
@@ -104,5 +104,6 @@ declare global {
 
 // https://router.vuejs.org/zh/guide/advanced/meta.html#typescript
 declare module "vue-router" {
+  // eslint-disable-next-line
   interface RouteMeta extends CustomizeRouteMeta {}
 }

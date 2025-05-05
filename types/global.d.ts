@@ -66,6 +66,9 @@ declare global {
     VITE_PROXY: [string, string][];
     VITE_OPEN: boolean;
     VITE_DROP_CONSOLE: boolean;
+    VITE_ENCRYPT: boolean;
+    VITE_ENCRYPT_SECRET_KEY: string;
+    VITE_ENCRYPT_IV: string;
   }
 
   /**

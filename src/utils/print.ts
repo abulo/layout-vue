@@ -5,34 +5,39 @@ interface PrintFunction {
   toPrint: Function;
 }
 
+interface PrintConstructor {
+  new (dom: any, options?: object): PrintFunction;
+}
+
 const Print = function (dom, options?: object): PrintFunction {
   options = options || {};
-  // @ts-expect-error
   if (!(this instanceof Print)) return new Print(dom, options);
+
   this.conf = {
     styleStr: "",
-    // Elements that need to dynamically get and set the height
     setDomHeightArr: [],
-    // Callback before printing
     printBeforeFn: null,
-    // Callback after printing
     printDoneCallBack: null
   };
+
   for (const key in this.conf) {
-    if (key && options.hasOwnProperty(key)) {
+    if (options.hasOwnProperty(key)) {
       this.conf[key] = options[key];
     }
   }
+
   if (typeof dom === "string") {
     this.dom = document.querySelector(dom);
   } else {
     this.dom = this.isDOM(dom) ? dom : dom.$el;
   }
+
   if (this.conf.setDomHeightArr && this.conf.setDomHeightArr.length) {
     this.setDomHeight(this.conf.setDomHeightArr);
   }
+
   this.init();
-};
+} as unknown as PrintConstructor;
 
 Print.prototype = {
   /**
@@ -129,8 +134,10 @@ Print.prototype = {
     iframe.id = "myIframe";
     iframe.setAttribute("style", "position:absolute;width:0;height:0;top:-10px;left:-10px;");
 
+    // eslint-disable-next-line prefer-const
     w = f.contentWindow || f.contentDocument;
 
+    // eslint-disable-next-line prefer-const
     doc = f.contentDocument || f.contentWindow.document;
     doc.open();
     doc.write(content);

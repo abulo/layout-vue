@@ -1,8 +1,8 @@
 import { getPluginsList } from "./build/plugins";
 import { include, exclude } from "./build/optimize";
 import { UserConfigExport, ConfigEnv, loadEnv } from "vite";
-import { root, alias, wrapperEnv, pathResolve, __APP_INFO__ } from "./build/utils";
 import { createProxy } from "./build/proxy";
+import { root, alias, wrapperEnv, pathResolve, __APP_INFO__ } from "./build/utils";
 
 export default ({ mode }: ConfigEnv): UserConfigExport => {
   const { VITE_CDN, VITE_PORT, VITE_COMPRESSION, VITE_PUBLIC_PATH, VITE_PROXY, VITE_OPEN, VITE_DROP_CONSOLE } = wrapperEnv(loadEnv(mode, root));

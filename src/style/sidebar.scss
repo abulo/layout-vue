@@ -651,6 +651,10 @@ body[layout="horizontal"] {
 
   @include merge-style($sideBarWidth);
 
+  .el-menu {
+    --el-menu-hover-text-color: var(--pure-theme-menu-text) !important;
+  }
+
   .fixed-header,
   .main-container {
     transition: none !important;
@@ -672,6 +676,7 @@ body[layout="mix"] {
 
   .el-menu {
     --el-menu-hover-bg-color: transparent !important;
+    --el-menu-hover-text-color: var(--pure-theme-menu-text) !important;
   }
 
   .hideSidebar {

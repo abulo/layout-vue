@@ -3,7 +3,7 @@ import { emitter } from "@/utils/mitt";
 import { onClickOutside } from "@vueuse/core";
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useDataThemeChange } from "@/layout/hooks/useDataThemeChange";
-import CloseIcon from "@iconify-icons/ep/close";
+import CloseIcon from "~icons/ep/close";
 
 const target = ref(null);
 const show = ref<Boolean>(false);
@@ -15,7 +15,7 @@ const iconClass = computed(() => {
     "flex",
     "justify-center",
     "items-center",
-    "outline-none",
+    "outline-hidden",
     "rounded-[4px]",
     "cursor-pointer",
     "transition-colors",
@@ -48,7 +48,7 @@ onBeforeUnmount(() => {
   <div :class="{ show }">
     <div class="right-panel-background" />
     <div ref="target" class="right-panel bg-bg_color">
-      <div class="project-configuration border-b-[1px] border-solid border-[var(--pure-border-color)]">
+      <div class="project-configuration border-0 border-b-[1px] border-solid border-[var(--pure-border-color)]">
         <h4 class="dark:text-white">系统配置</h4>
         <span
           v-tippy="{
@@ -64,7 +64,7 @@ onBeforeUnmount(() => {
         <slot />
       </el-scrollbar>
 
-      <div class="flex justify-end p-3 border-t-[1px] border-solid border-[var(--pure-border-color)]">
+      <div class="flex justify-end p-3 border-0 border-t-[1px] border-solid border-[var(--pure-border-color)]">
         <el-button
           v-tippy="{
             content: '清空缓存并返回登录页',
